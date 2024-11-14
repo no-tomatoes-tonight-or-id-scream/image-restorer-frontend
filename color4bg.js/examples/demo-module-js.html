@@ -1,0 +1,105 @@
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<script src="https://cdn.tailwindcss.com"></script>
+		<title>Demo color4bg.js</title>
+		<style>
+			html,
+			body {
+				width: 100%;
+				height: 100%;
+			}
+
+			#bg_list::-webkit-scrollbar {
+				width: 5px;
+			}
+			#bg_list::-webkit-scrollbar-track {
+				margin: 20px;
+			}
+			#bg_list::-webkit-scrollbar-thumb {
+				background-color: #e5e7eb;
+				border-radius: 4px;
+			}
+
+			.colors-list-box {
+				display: none;
+				transform-origin: 100% 0;
+				transform: scale(0);
+				opacity: 0;
+			}
+			.colors-list-box.show {
+				transform: scale(1);
+				opacity: 1;
+			}
+
+			.options-list-box {
+				display: none;
+				transform-origin: 100% 0;
+				transform: scale(0);
+				opacity: 0;
+			}
+			.options-list-box.show {
+				transform: scale(1);
+				opacity: 1;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="flex h-full">
+			<div class="px-6 w-2/12 h-full">
+				<div id="bg_list" class="p-6 w-full h-full overflow-y-auto overflow-x-hidden rounded-2xl"></div>
+			</div>
+
+			<div class="p-6 w-10/12 h-full bg-white">
+				<div id="box" class="relative flex items-center justify-center w-full h-full bg-gray-100 rounded-2xl overflow-hidden">
+					<h1 class="z-50 text-6xl font-bold text-white">Color4Bg</h1>
+
+					<!-- colors modify -->
+					<div class="z-50 absolute top-4 right-4" id="box_colors">
+						<div class="absolute p-4 right-0 text-4xl rounded-full bg-gray-100/20 cursor-pointer hover:bg-gray-100/30 transition" id="btn_show_colors">🎨</div>
+						<div class="colors-list-box relative p-4 top-0 right-0 bg-gray-100 rounded-2xl transition">
+							<ul id="colors_list"></ul>
+						</div>
+					</div>
+
+					<!-- options -->
+					<div class="z-40 absolute top-4 right-32" id="box_options">
+						<div class="absolute p-4 right-0 text-4xl rounded-full bg-gray-100/20 cursor-pointer hover:bg-gray-100/30 transition" id="btn_show_options">🎛</div>
+						<div class="options-list-box relative p-4 top-0 right-0 bg-gray-100 rounded-2xl transition">
+							<ul id="options_list"></ul>
+						</div>
+					</div>
+
+					<!-- options -->
+					<div class="z-40 absolute top-4 left-20" id="box_options">
+						<div class="absolute p-4 right-0 text-4xl rounded-full bg-gray-100/20 cursor-pointer hover:bg-gray-100/30 transition" id="btn_resetSeed">🎲</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script type="module">
+			import { Colors, Options, Bgs } from "./data.js"
+			import { UI, getBgTypeFromUrl } from "./ui.js"
+			import { SwirlingCurvesBg } from "../build/jsm/SwirlingCurvesBg.module.js"
+			// import { SwirlingCurvesBg } from "../src/color4bg/AbstractBackground/SwirlingCurvesBg.js"
+
+			const palette = Colors["vivid"]
+
+			let colorbg = getBgTypeFromUrl(Bgs)
+
+			if (!colorbg) {
+				colorbg = new SwirlingCurvesBg({
+					dom: "box", // DOM that you want to add color background
+					colors: palette, // 6 Hex colors
+					seed: 1000, // Random seed
+					loop: true // Whether the background would be loop animated
+				})
+			}
+
+			const ui = new UI(Colors, Bgs, Options, colorbg, palette)
+		</script>
+	</body>
+</html>
