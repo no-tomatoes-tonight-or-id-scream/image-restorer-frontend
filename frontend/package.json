@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "tdesign-vue": "^1.10.5-naruto"
+    "@jamescoyle/vue-icon": "^0.1.2",
+    "@mdi/js": "^7.4.47",
+    "vuetify": "^3.7.4"
   }
 }
