@@ -16,7 +16,6 @@ export default {
   components: {
     UploadImage,
     AmbientLightBg,
-    test
   }
 };
 </script>
