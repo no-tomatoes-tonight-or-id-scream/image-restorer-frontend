@@ -1,6 +1,6 @@
 <template>
   <div class="flex h-full">
-    <div class="p-6 w-full h-full bg-white relative">
+    <div>
       <UploadImage />
       <AmbientLightBg />
     </div>
@@ -15,7 +15,8 @@ export default {
   name: 'App',
   components: {
     UploadImage,
-    AmbientLightBg
+    AmbientLightBg,
+    test
   }
 };
 </script>
@@ -24,5 +25,6 @@ export default {
 html, body {
   width: 100%;
   height: 100%;
+  margin: 0;
 }
 </style>
