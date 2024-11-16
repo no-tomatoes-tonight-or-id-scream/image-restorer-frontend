@@ -6,16 +6,18 @@
         v-if="!uploadComplete"
         @mouseenter="handleMouseEnter"
         @mouseleave="handleMouseLeave"
-        :style="buttonStyle"
+        @click="triggerFileInput"
+    :style="buttonStyle"
     >
-      上传图片
+    上传图片
     </button>
-    <!-- 隐藏的文件输入框 -->
+    <!-- 隐藏的文件输入框，通过ref访问 -->
     <input
+        ref="fileInput"
         type="file"
         @change="handleFileUpload"
         accept="image/*"
-        class="file-input"
+        style="display: none;"
     />
   </div>
 </template>
@@ -56,6 +58,10 @@ export default {
         this.$emit("file-uploaded", file); // 触发父组件事件
       }
     },
+    triggerFileInput() {
+      // 点击按钮时触发隐藏的文件输入框点击
+      this.$refs.fileInput.click();
+    },
   },
 };
 </script>
@@ -83,16 +89,5 @@ export default {
   font-weight: bold; /* 增加字体粗细 */
   text-align: center; /* 居中对齐文本 */
   transition: all 0.3s ease; /* 确保移动和透明度的平滑过渡 */
-}
-
-.file-input {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0; /* 完全透明 */
-  cursor: pointer;
-  pointer-events: none; /* 避免阻挡鼠标事件 设置为不可交互*/
 }
 </style>
