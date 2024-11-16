@@ -1,15 +1,22 @@
 <template>
   <div class="upload-btn-wrapper">
+    <!-- 上传按钮 -->
     <button
         class="upload-btn"
         v-if="!uploadComplete"
-        @mouseenter="onHover"
-        @mouseleave="onLeave"
+        @mouseenter="handleMouseEnter"
+        @mouseleave="handleMouseLeave"
         :style="buttonStyle"
     >
       上传图片
     </button>
-    <input type="file" @change="handleFileUpload" accept="image/*" />
+    <!-- 隐藏的文件输入框 -->
+    <input
+        type="file"
+        @change="handleFileUpload"
+        accept="image/*"
+        class="file-input"
+    />
   </div>
 </template>
 
@@ -25,17 +32,21 @@ export default {
   computed: {
     buttonStyle() {
       return {
-        opacity: this.uploadComplete ? 0 : 1, // 上传完成时按钮渐变消失
-        transition: "opacity 0.5s ease", // 添加平滑过渡
+        opacity: this.uploadComplete ? 0 : 1,
+        backgroundColor: this.isHovered ? "#f0f0f0" : "#ffffff", // 鼠标悬停时按钮变色
+        transform: this.isHovered ? "translateX(-25px)" : "translateX(0)",
+        transition: "all 0.3s ease",
       };
     },
   },
   methods: {
-    onHover() {
+    handleMouseEnter() {
       this.isHovered = true; // 鼠标进入
+      console.log("isHovered状态转为 true");
     },
-    onLeave() {
+    handleMouseLeave() {
       this.isHovered = false; // 鼠标离开
+      console.log("isHovered状态转为 false");
     },
     handleFileUpload(event) {
       const file = event.target.files[0];
@@ -61,22 +72,27 @@ export default {
 .upload-btn {
   background-color: #ffffff; /* 纯白色背景 */
   border: none; /* 去除边框 */
-  padding: 15px 30px; /* 调整尺寸 */
-  border-radius: 50px; /* 椭圆形 */
+  padding: 0; /* 移除原有内边距，使用固定宽高 */
+  width: 360px; /* 按钮宽度 */
+  height: 80px; /* 按钮高度 */
+  border-radius: 40px; /* 圆角值调整为一半高度 */
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* 阴影效果 */
   cursor: pointer;
-  font-size: 16px;
+  font-size: 28px; /* 字体大小 */
+  line-height: 42px; /* 行高 */
   font-weight: bold; /* 增加字体粗细 */
-  transition: opacity 0.5s ease; /* 确保按钮的平滑过渡 */
+  text-align: center; /* 居中对齐文本 */
+  transition: all 0.3s ease; /* 确保移动和透明度的平滑过渡 */
 }
 
-.upload-btn-wrapper input[type="file"] {
+.file-input {
   position: absolute;
   top: 0;
   left: 0;
-  opacity: 0;
   width: 100%;
   height: 100%;
+  opacity: 0; /* 完全透明 */
   cursor: pointer;
+  pointer-events: none; /* 避免阻挡鼠标事件 设置为不可交互*/
 }
 </style>
