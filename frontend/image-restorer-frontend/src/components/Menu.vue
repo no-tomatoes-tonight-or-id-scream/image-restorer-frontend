@@ -70,7 +70,7 @@ export default {
 
 <style scoped>
 .fade-enter-active, .fade-leave-active {
-  transition: opacity 1s;
+  transition: opacity 1s ease-in-out;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active 在某些版本中 */ {
   opacity: 0;
@@ -78,49 +78,75 @@ export default {
 
 .menu-wrapper {
   position: fixed;
-  top: 30%; /* 调整菜单的纵向位置 */
-  left: 5%; /* 保持在左侧 */
-  width: 300px; /* 菜单宽度 */
+  top: 20%;
+  left: 5%;
+  width: 400px;
   padding: 40px;
-  background-color: rgba(255, 255, 255, 0.8);
-  border-radius: 10px; /* 圆角 */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* 阴影效果 */
-  z-index: 50; /* 提高 z-index 确保不被覆盖 */
+  background: rgba(255, 255, 255, 0.1); /* 设置透明背景 */
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* 更柔和的阴影 */
+  backdrop-filter: blur(10px); /* 背景模糊效果 */
+  z-index: 50;
+  animation: fadeIn 0.5s ease-out;
 }
 
 .menu-item {
-  margin-bottom: 15px;
+  margin-bottom: 25px;
 }
 
 label {
   display: block;
   font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 5px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
 }
 
 select {
   width: 100%;
-  padding: 8px;
+  padding: 12px 16px;
   font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.15); /* 选择框背景保持不透明 */
+  transition: border-color 0.3s ease;
+}
+
+select:focus {
+  border-color: #66afe9;
+  outline: none;
 }
 
 .menu-submit-btn {
-  background-color: #28a745; /* 绿色提交按钮 */
+  background-color: #28a745;
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 12px 20px;
   font-size: 16px;
-  font-weight: bold;
-  border-radius: 5px;
+  font-weight: 600;
+  border-radius: 8px;
   cursor: pointer;
-  width: 100%; /* 提交按钮宽度占满 */
-  transition: background-color 0.3s ease;
+  width: 100%;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .menu-submit-btn:hover {
-  background-color: #218838; /* 悬停时加深绿色 */
+  background-color: #218838;
+  transform: translateY(-2px);
+}
+
+.menu-submit-btn:active {
+  transform: translateY(0);
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>
