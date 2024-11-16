@@ -1,72 +1,82 @@
 <template>
-  <div class="relative flex items-center justify-center w-full h-full bg-gray-100 rounded-2xl overflow-hidden">
-    <!-- Image upload button -->
-    <button class="upload-btn" @click="triggerFileInput">Upload Image</button>
-
-    <!-- Hidden file input -->
-    <input
-        id="fileInput"
-        type="file"
-        accept="image/*"
-        class="file-input"
-        @change="uploadImage"
-    />
-
-    <!-- The uploaded image will be placed here -->
-    <img v-if="imageSrc" :src="imageSrc" alt="Uploaded Image" class="absolute top-1/2 right-0 transform -translate-y-1/2 w-3/4 h-auto object-cover rounded-lg" />
+  <div class="upload-btn-wrapper">
+    <button
+        class="upload-btn"
+        v-if="!uploadComplete"
+        @mouseenter="onHover"
+        @mouseleave="onLeave"
+        :style="buttonStyle"
+    >
+      上传图片
+    </button>
+    <input type="file" @change="handleFileUpload" accept="image/*" />
   </div>
 </template>
 
 <script>
 export default {
+  name: "UploadImage",
   data() {
     return {
-      imageSrc: null,
+      isHovered: false, // 鼠标悬停状态
+      uploadComplete: false, // 上传完成状态
     };
   },
-  methods: {
-    triggerFileInput() {
-      this.$refs.fileInput.click();
+  computed: {
+    buttonStyle() {
+      return {
+        opacity: this.uploadComplete ? 0 : 1, // 上传完成时按钮渐变消失
+        transition: "opacity 0.5s ease", // 添加平滑过渡
+      };
     },
-    uploadImage(event) {
+  },
+  methods: {
+    onHover() {
+      this.isHovered = true; // 鼠标进入
+    },
+    onLeave() {
+      this.isHovered = false; // 鼠标离开
+    },
+    handleFileUpload(event) {
       const file = event.target.files[0];
       if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          this.imageSrc = e.target.result;
-        };
-        reader.readAsDataURL(file);
+        console.log("文件已上传:", file);
+        this.uploadComplete = true; // 设置上传完成状态
+        this.$emit("file-uploaded", file); // 触发父组件事件
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped>
-.upload-btn {
-  position: absolute;
+.upload-btn-wrapper {
+  position: fixed;
   top: 50%;
-  left: 0;
+  left: 10%;
   transform: translateY(-50%);
-  padding: 10px 20px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
   z-index: 10;
 }
 
-.upload-btn:hover {
-  background-color: #45a049;
+.upload-btn {
+  background-color: #ffffff; /* 纯白色背景 */
+  border: none; /* 去除边框 */
+  padding: 15px 30px; /* 调整尺寸 */
+  border-radius: 50px; /* 椭圆形 */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* 阴影效果 */
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold; /* 增加字体粗细 */
+  transition: opacity 0.5s ease; /* 确保按钮的平滑过渡 */
 }
 
-.upload-btn:focus {
-  outline: none;
-}
-
-.file-input {
-  display: none;
+.upload-btn-wrapper input[type="file"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
 }
 </style>
