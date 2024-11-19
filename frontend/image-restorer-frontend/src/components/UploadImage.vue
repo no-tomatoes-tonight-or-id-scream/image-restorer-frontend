@@ -3,14 +3,15 @@
     <!-- 上传按钮 -->
     <button
         v-if="!uploadComplete"
-        class="btn btn-lg btn-outline w-[360px] h-[80px] text-2xl font-bold shadow-md flex items-center justify-center space-x-2 transition-all duration-300"
-        :class="{ 'hover:translate-x-[-25px]': isHovered }"
+        class="btn btn-lg btn-outline w-[360px] h-[80px] text-2xl font-bold
+      shadow-md flex items-center justify-center space-x-2 transition-all duration-300"
+        :class="{ 'hover-active': isHovered, 'hover:translate-x-[-25px]': isHovered }"
         @mouseenter="handleMouseEnter"
         @mouseleave="handleMouseLeave"
         @click="triggerFileInput"
     >
-      <UploadFilled class="text-3xl" /> <!-- 图标 -->
-      <span class="text-style">上传图片</span> <!-- 文字 -->
+      <UploadFilled class="icon-style" :class="{ 'icon-hover': isHovered }" /> <!-- 图标 -->
+      <span class="text-style" :class="{ 'text-hide': isHovered }">上传图片</span> <!-- 文字 -->
     </button>
     <!-- 隐藏的文件输入框 -->
     <input
@@ -79,28 +80,44 @@ export default {
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   color: #333; /* 文字颜色 */
+  overflow: hidden; /* 防止动画溢出 */
+  transition: all 0.3s ease; /* 整体动画效果 */
 }
 
 .btn:hover {
   background-color: #D32F2F;
 }
 
-.btn .text-3xl {
+.icon-style {
   width: 36px;
   height: 36px;
   color: #666; /* 图标颜色 */
+  transition: all 0.3s ease; /* 动画过渡 */
 }
 
-.space-x-2 > :not([hidden]) ~ :not([hidden]) {
-  margin-left: 0.5rem; /* 图标与文字间距 */
+.icon-hover {
+  width: 72px; /* 鼠标悬停时图标放大 */
+  height: 72px;
 }
+
 .text-style {
-  font-size: 28px; /* 文字大小 */
-  line-height: 42px; /* 文字行高 */
+  font-size: 28px; /* 初始文字大小 */
+  line-height: 42px; /* 行高 */
   color: #333;
+  transition: all 0.3s ease; /* 动画过渡 */
+}
+
+.text-hide {
+  font-size: 0px; /* 鼠标悬停时文字缩小消失 */
+  opacity: 0; /* 文字逐渐隐藏 */
 }
 
 .hidden {
   display: none;
+}
+
+/* 鼠标悬停时按钮向左移动效果 */
+.hover-active {
+  transform: translateX(-25px); /* 按钮整体向左移动 */
 }
 </style>
