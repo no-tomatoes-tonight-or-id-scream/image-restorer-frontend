@@ -1,5 +1,5 @@
 <template>
-  <div class="relative w-full h-screen overflow-hidden bg-black" ref="container">
+  <div class="relative w-full h-screen overflow-hidden bg-black" ref="container" v-if="controlImage">
     <!-- 左边的未处理图片部分，通过 clip-path 进行遮罩 -->
     <div
         class="absolute top-0 left-0 w-full h-full overflow-hidden"
@@ -13,6 +13,8 @@
       />
     </div>
 
+    <button class="absolute rounded-lg  bottom-0 text-xs opacity-80 bg-gray-400" :style="{left: leftBound + '%'}" v-if="controlTextLeft">Original</button>
+
     <!-- 右边的处理图片部分，通过 clip-path 进行遮罩 -->
     <div
         class="absolute top-0 left-0 w-full h-full overflow-hidden"
@@ -25,7 +27,7 @@
           class="absolute inset-0 m-auto object-contain h-full"
       />
     </div>
-
+    <button class="absolute rounded-lg  bottom-0 text-xs opacity-80 bg-gray-400" :style="{right: leftBound + '%'}" v-if="controlTextRight">Processed</button>
     <!-- 滑动按钮 -->
     <div
         class="absolute top-0 bottom-0 w-[3px] bg-white cursor-ew-resize z-10"
@@ -37,6 +39,20 @@
       ></span>
     </div>
   </div>
+
+  <div class="relative w-full h-screen overflow-hidden bg-black" ref="container" v-else>
+    <div
+        class="absolute top-0 left-0 w-full h-full overflow-hidden"
+    >
+      <img
+          :src="leftImage"
+          alt="Left Image"
+          ref="leftImage"
+          class="absolute inset-0 m-auto object-contain h-full"
+      />
+    </div>
+  </div>
+
 </template>
 
 <script>
@@ -46,16 +62,23 @@ export default {
       type: String,
       required: true,
     },
-    rightImage: {
-      type: String,
-      required: true,
-    },
+    // rightImage: {
+    //   type: String,
+    //   required: true,
+    // },
   },
   data() {
     return {
       leftWidth: 50, // 初始化滑块位置为50%
       isDragging: false,
       containerBounds: null,
+      controlImage: true,  //控制遮罩容器加载
+      rightImage: "/images/processed_1.png",
+      controlTextLeft: false,  //控制干净图片状态标签
+      controlTextRight: false,  //控制脏图片状态标签
+      leftBound : null,
+      rightBound : null,
+
     };
   },
   mounted() {
@@ -68,8 +91,14 @@ export default {
     window.removeEventListener('resize', this.updateContainerBounds);
   },
   methods: {
+    changeStatus(){
+      this.controlImage = !this.controlImage;
+    },
     updateContainerBounds() {
       this.containerBounds = this.$refs.container.getBoundingClientRect();
+      this.leftBound = (this.$refs.leftImage.getBoundingClientRect().left - this.containerBounds.left) / this.containerBounds.width * 100;
+      this.rightBound = (this.$refs.leftImage.getBoundingClientRect().right - this.containerBounds.left) / this.containerBounds.width * 100;
+
       // console.log(this.containerBounds);
     },
     startDragging(event) {
@@ -93,15 +122,18 @@ export default {
       let newLeftWidth = (relativeX / this.containerBounds.width) * 100;
 
       // 限制滑块位置在图片范围内
-      let leftBound = (this.$refs.leftImage.getBoundingClientRect().left - this.containerBounds.left) / this.containerBounds.width * 100;
-      let rightBound = (this.$refs.leftImage.getBoundingClientRect().right - this.containerBounds.left) / this.containerBounds.width * 100;
 
       // console.log(this.$refs.leftImage.getBoundingClientRect())
       // console.log(this.$refs.container.getBoundingClientRect())
       // console.log(leftBound,rightBound)
 
-      newLeftWidth = Math.max(leftBound, Math.min(rightBound, newLeftWidth));
-
+      newLeftWidth = Math.max(this.leftBound, Math.min(this.rightBound, newLeftWidth));
+      if (newLeftWidth === this.leftBound)
+        this.controlTextLeft = true;
+      else if (newLeftWidth === this.rightBound)
+        this.controlTextRight = true;
+      else
+        this.controlTextRight = this.controlTextLeft = false;
       // 更新滑块位置
       this.leftWidth = newLeftWidth;
     },

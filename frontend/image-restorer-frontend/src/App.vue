@@ -10,8 +10,8 @@
     <!-- 右边的图片对比组件，占据屏幕的三分之二 -->
     <div class="w-2/3 h-screen">
       <ImageComparison
-          leftImage="/images/processed_1.png"
-          rightImage="/images/preprocess_1.png"
+
+          leftImage="/images/preprocess_1.png"
       />
     </div>
   </div>
