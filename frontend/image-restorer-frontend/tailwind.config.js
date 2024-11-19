@@ -6,5 +6,11 @@ module.exports = {
   theme: {
     extend: {}, // 可以在这里扩展自定义主题
   },
-  plugins: [], // 可以在这里添加 Tailwind 插件
+  plugins: [
+    require('daisyui'),
+  ], // 可以在这里添加 Tailwind 插件
+  daisyui: {
+    themes: ["light", "dark"],
+    // 配置 daisyUI 主题
+  }
 };
