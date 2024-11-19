@@ -1,6 +1,6 @@
 <template>
-  <div id="box" class="relative flex items-center justify-center w-full h-full bg-gray-100 rounded-2xl overflow-hidden">
-    <h1 class="z-50 text-6xl font-bold text-white">Demo of Color4Bg</h1>
+  <div id="box" class="relative flex items-center justify-center w-full h-full bg-gray-100  overflow-hidden">
+
   </div>
 </template>
 
