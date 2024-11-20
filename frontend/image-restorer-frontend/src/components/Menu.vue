@@ -1,41 +1,39 @@
 <template>
-  <transition name="fade">
-    <div v-if="isVisible" class="menu-wrapper">
-      <form @submit.prevent="handleSubmit">
-        <div class="menu-item">
-          <label for="modelType" class="label">
-            <span class="label-text text-lg font-semibold">模型类型:</span>
-          </label>
-          <select
-              id="modelType"
-              v-model="formData.modelType"
-              class="select select-bordered w-full"
-          >
-            <option value="modelA">模型 A</option>
-            <option value="modelB">模型 B</option>
-            <option value="modelC">模型 C</option>
-          </select>
-        </div>
-        <div class="menu-item">
-          <label for="denoiseLevel" class="label">
-            <span class="label-text text-lg font-semibold">去噪强度:</span>
-          </label>
-          <select
-              id="denoiseLevel"
-              v-model="formData.denoiseLevel"
-              class="select select-bordered w-full"
-          >
-            <option value="low">低</option>
-            <option value="medium">中</option>
-            <option value="high">高</option>
-          </select>
-        </div>
-        <button type="submit" class="btn btn-success w-full text-lg">
-          提交
-        </button>
-      </form>
-    </div>
-  </transition>
+  <div v-if="isVisible" class="menu-wrapper">
+    <form @submit.prevent="handleSubmit">
+      <div class="menu-item">
+        <label for="modelType" class="label">
+          <span class="label-text text-lg font-semibold">模型类型:</span>
+        </label>
+        <select
+            id="modelType"
+            v-model="formData.modelType"
+            class="select select-bordered w-full"
+        >
+          <option value="modelA">模型 A</option>
+          <option value="modelB">模型 B</option>
+          <option value="modelC">模型 C</option>
+        </select>
+      </div>
+      <div class="menu-item">
+        <label for="denoiseLevel" class="label">
+          <span class="label-text text-lg font-semibold">去噪强度:</span>
+        </label>
+        <select
+            id="denoiseLevel"
+            v-model="formData.denoiseLevel"
+            class="select select-bordered w-full"
+        >
+          <option value="low">低</option>
+          <option value="medium">中</option>
+          <option value="high">高</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-success w-full text-lg">
+        提交
+      </button>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -57,7 +55,6 @@ export default {
   },
   methods: {
     handleSubmit() {
-      // 模拟 POST 请求
       const postData = {
         modelType: this.formData.modelType,
         denoiseLevel: this.formData.denoiseLevel,
@@ -83,15 +80,6 @@ export default {
 </script>
 
 <style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 1s ease-in-out;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-
 .menu-wrapper {
   position: fixed;
   top: 20%;
