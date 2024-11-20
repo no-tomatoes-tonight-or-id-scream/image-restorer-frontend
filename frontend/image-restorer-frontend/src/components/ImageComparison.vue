@@ -35,8 +35,11 @@
         @mousedown="startDragging"
     >
       <span
-          class="absolute top-1/2 -left-2.5 w-5 h-5 bg-gray-800 rounded-full transform -translate-y-1/2"
-      ></span>
+          class="absolute top-1/2 -left-2.5 w-5 h-5 rounded-full transform -translate-y-1/2 flex items-center justify-center"
+      >
+    <img src="/svgs/左右箭头.svg" alt="icon" class="w-full h-full" />
+</span>
+
     </div>
   </div>
 
@@ -113,20 +116,8 @@ export default {
       window.removeEventListener("mouseup", this.stopDragging);
     },
     onDrag(event) {
-      if (!this.isDragging || !this.containerBounds) return;
-
-      // 计算鼠标相对图片边界的位置
       const relativeX = event.clientX - this.containerBounds.left;
-
-      // 滑块位置百分比，基于图片显示区域宽度计算
       let newLeftWidth = (relativeX / this.containerBounds.width) * 100;
-
-      // 限制滑块位置在图片范围内
-
-      // console.log(this.$refs.leftImage.getBoundingClientRect())
-      // console.log(this.$refs.container.getBoundingClientRect())
-      // console.log(leftBound,rightBound)
-
       newLeftWidth = Math.max(this.leftBound, Math.min(this.rightBound, newLeftWidth));
       if (newLeftWidth === this.leftBound)
         this.controlTextLeft = true;
