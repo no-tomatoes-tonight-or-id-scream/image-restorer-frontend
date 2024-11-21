@@ -1,15 +1,17 @@
 <template>
-  <div class="relative w-full h-screen overflow-hidden bg-black" ref="container" v-if="controlImage">
+  <div class="relative w-full h-screen overflow-hidden  z-10" ref="container" v-if="controlImage" draggable="false">
     <!-- 左边的未处理图片部分，通过 clip-path 进行遮罩 -->
     <div
         class="absolute top-0 left-0 w-full h-full overflow-hidden"
         :style="{ clipPath: `inset(0 0 0 ${leftWidth}%)` }"
+        draggable="false"
     >
       <img
           :src="leftImage"
           alt="Left Image"
           ref="leftImage"
           class="absolute inset-0 m-auto object-contain h-full"
+          draggable="false"
       />
     </div>
 
@@ -19,12 +21,14 @@
     <div
         class="absolute top-0 left-0 w-full h-full overflow-hidden"
         :style="{ clipPath: `inset(0 ${100 - leftWidth}% 0 0)` }"
+        draggable="false"
     >
       <img
           :src="rightImage"
           alt="Right Image"
           ref="rightImage"
           class="absolute inset-0 m-auto object-contain h-full"
+          draggable="false"
       />
     </div>
     <button class="absolute rounded-lg  bottom-0 text-xs opacity-80 bg-gray-400" :style="{right: leftBound + '%'}" v-if="controlTextRight">Processed</button>
@@ -43,7 +47,7 @@
     </div>
   </div>
 
-  <div class="relative w-full h-screen overflow-hidden bg-black" ref="container" v-else>
+  <div class="relative w-full h-screen overflow-hidden " ref="container" v-else>
     <div
         class="absolute top-0 left-0 w-full h-full overflow-hidden"
     >
@@ -138,4 +142,17 @@ export default {
 .bg-black {
   background-color: #000;
 }
+img {
+  border-radius: 10px;
+  border: 5px solid transparent;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19); /* 阴影 */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* 添加过渡效果 */
+  /*background: radial-gradient(circle, rgba(63, 94, 251, 0.8), rgba(252, 70, 107, 0.8));*/
+}
+img:hover {
+
+  transform: scale(1.01); /* 略微旋转和放大 */
+  filter: brightness(1.1); /* 提高亮度 */
+}
+
 </style>

@@ -2,6 +2,7 @@
   "dependencies": {
     "@jamescoyle/vue-icon": "^0.1.2",
     "@mdi/js": "^7.4.47",
+    "vue-router": "^4.4.5",
     "vuetify": "^3.7.4"
   }
 }

@@ -1,21 +1,15 @@
 <template>
-  <div class="flex h-screen w-full">
-    <!-- 左边的空白区域，占据屏幕的三分之一 -->
-    <div class="w-1/3 h-screen">
-      <Backdrop>
-        <AmbientLightBg/>
-      </Backdrop>
-    </div>
 
-    <!-- 右边的图片对比组件，占据屏幕的三分之二 -->
-    <div class="w-2/3 h-screen">
-      <ImageComparison
+  <div class="relative w-full h-screen bg-gray-100 overflow-hidden">
+    <AmbientLightBg /> <!-- 背景动效 -->
 
-          leftImage="/images/preprocess_1.png"
-      />
+    <!-- 右边图片区域 -->
+    <div class="absolute right-0 top-0 w-2/3 h-full" draggable="false">
+      <ImageComparison leftImage="/images/preprocess_1.png" />
     </div>
   </div>
 </template>
+
 
 <script>
 import Backdrop from "./components/Backdrop.vue";
