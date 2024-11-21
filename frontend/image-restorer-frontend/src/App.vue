@@ -1,5 +1,4 @@
 <template>
-
   <div class="relative w-full h-screen bg-gray-100 overflow-hidden">
     <AmbientLightBg /> <!-- 背景动效 -->
 
@@ -22,6 +21,7 @@ export default {
     Backdrop,
     AmbientLightBg,
     ImageComparison
+
   }
 };
 </script>
