@@ -16,7 +16,7 @@
     <!-- 菜单的过渡效果 -->
     <transition name="menu-fade">
       <!-- showMenu 和 组件中的 isVisible 实现绑定-->
-      <Menu :isVisible="showMenu" />
+      <Menu :isVisible="showMenu" :uploadedFile="uploadedFile" />
     </transition>
   </div>
 </template>
@@ -42,11 +42,13 @@ export default {
     return {
       showMenu: false, // 控制菜单显示
       showButton: true, // 控制上传按钮显示
+      uploadedFile: null,
     };
   },
   methods: {
     handleFile(file) {
       console.log("App.vue 收到文件:", file);
+      this.uploadedFile = file;
       this.showButton = false; // 隐藏上传按钮
       setTimeout(() => {
         this.showMenu = true; // 显示菜单
