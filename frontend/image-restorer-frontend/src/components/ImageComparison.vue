@@ -32,12 +32,12 @@
     <div
         class="absolute top-0 bottom-0 w-[3px] bg-white cursor-ew-resize z-10"
         :style="{ left: leftWidth + '%' }"
-        @mousedown="startDragging"
+        @mousedown.prevent="startDragging"
     >
       <span
           class="absolute top-1/2 -left-2.5 w-5 h-5 rounded-full transform -translate-y-1/2 flex items-center justify-center"
       >
-    <img src="/svgs/左右箭头.svg" alt="icon" class="w-full h-full" />
+    <img src="/svgs/左右箭头.svg" alt="icon" class="w-full h-full" draggable="false"/>
 </span>
 
     </div>
