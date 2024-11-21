@@ -1,34 +1,4 @@
 <template>
-  <div class="flex h-full">
-    <div>
-      <UploadImage />
-      <AmbientLightBg />
-    </div>
-  </div>
-</template>
-
-<script>
-import UploadImage from './components/UploadImage.vue';
-import AmbientLightBg from './components/AmbientLightBg.vue';
-
-export default {
-  name: 'App',
-  components: {
-    UploadImage,
-    AmbientLightBg,
-  }
-};
-</script>
-
-<style>
-html, body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-}
-</style>
-
-<template>
   <div class="relative w-full h-screen bg-gray-100 overflow-hidden">
     <AmbientLightBg /> <!-- 背景动效 -->
 
@@ -37,34 +7,6 @@ html, body {
       <ImageComparison leftImage="/images/preprocess_1.png" />
     </div>
   </div>
-</template>
-
-
-<script>
-import Backdrop from "./components/Backdrop.vue";
-import AmbientLightBg from './components/AmbientLightBg.vue';
-import ImageComparison from "./components/ImageComparison.vue";
-
-export default {
-  name: 'App',
-  components: {
-    Backdrop,
-    AmbientLightBg,
-    ImageComparison
-
-  }
-};
-</script>
-
-<style>
-html, body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-}
-</style>
-
-<template>
   <div id="app">
     <AmbientLightBg />
     <!-- 上传按钮的过渡效果 -->
@@ -79,15 +21,20 @@ html, body {
   </div>
 </template>
 
+
 <script>
-import AmbientLightBg from "./components/AmbientLightBg.vue";
-import UploadImage from "./components/UploadImage.vue";
-import Menu from "./components/Menu.vue";
+import Backdrop from "./components/Backdrop.vue";
+import AmbientLightBg from './components/AmbientLightBg.vue';
+import ImageComparison from "./components/ImageComparison.vue";
+import UploadImage from "@/components/UploadImage.vue";
+import Menu from "@/components/Menu.vue";
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
+    Backdrop,
     AmbientLightBg,
+    ImageComparison,
     UploadImage,
     Menu,
   },
@@ -108,9 +55,15 @@ export default {
     },
   },
 };
+
 </script>
 
-<style scoped>
+<style>
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
 /* 上传按钮的缩小淡出效果 */
 .btn-fade-enter-active,
 .btn-fade-leave-active {
@@ -142,4 +95,3 @@ export default {
   transform: scale(0.2); /* 离开时缩小 */
 }
 </style>
-
