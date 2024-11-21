@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
+    "axios": "^1.7.7",
     "daisyui": "^4.12.14",
     "element-plus": "^2.8.8",
-    "vue": "^3.5.12"
+    "vue": "^3.5.12",
+    "vuetify": "^3.7.4"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.1.4",
