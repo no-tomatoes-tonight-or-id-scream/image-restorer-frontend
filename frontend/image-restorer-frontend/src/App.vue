@@ -1,14 +1,12 @@
 <template>
-  <div class="relative w-full h-screen bg-gray-100 overflow-hidden">
+  <div class="absolute w-full h-screen z-0">
     <AmbientLightBg /> <!-- 背景动效 -->
 
     <!-- 右边图片区域 -->
-    <div class="absolute right-0 top-0 w-2/3 h-full" draggable="false">
+    <div class="absolute right-0 w-2/3 h-screen z-10" draggable="false" v-if="!showButton">
       <ImageComparison leftImage="/images/preprocess_1.png" />
     </div>
-  </div>
   <div id="app">
-    <AmbientLightBg />
     <!-- 上传按钮的过渡效果 -->
     <transition name="btn-fade" @after-leave="showMenu = true">
       <UploadImage v-if="showButton" @file-uploaded="handleFile" />
@@ -18,6 +16,7 @@
       <!-- showMenu 和 组件中的 isVisible 实现绑定-->
       <Menu :isVisible="showMenu" />
     </transition>
+  </div>
   </div>
 </template>
 
@@ -58,7 +57,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 html, body {
   width: 100%;
   height: 100%;

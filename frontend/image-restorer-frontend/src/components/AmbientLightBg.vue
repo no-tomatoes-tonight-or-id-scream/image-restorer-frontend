@@ -1,5 +1,5 @@
 <template>
-  <div id="box" class="absolute  items-center justify-center w-full h-full bg-gray-100  overflow-hidden">
+  <div id="box" class="absolute items-center justify-center w-full h-full bg-gray-100  overflow-hidden">
   </div>
 
 </template>
@@ -13,7 +13,7 @@ export default {
 
     let colorbg = new Color4Bg.AmbientLightBg({
     dom: "box",
-    colors: ["#f3f4f6"],
+    colors: ["#f3f1f6"],
     loop: true,
       seed:100
     })
