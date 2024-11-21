@@ -1,5 +1,7 @@
 <template>
-  <div id="box" class="w-screen h-screen fixed top-0 left-0 -z-10"></div>
+  <div id="box" class="absolute  items-center justify-center w-full h-full bg-gray-100  overflow-hidden">
+  </div>
+
 </template>
 
 <script>
@@ -8,12 +10,16 @@ import { onMounted } from 'vue';
 export default {
   name: 'Bg',
   mounted() {
-    let colorbg = new Color4Bg.BlurGradientBg({
-      dom: "box",
-      colors: ["#FC8408","#EE340D","#CA2406","#46AFE0"],
-      loop: true
+
+    let colorbg = new Color4Bg.AmbientLightBg({
+    dom: "box",
+    colors: ["#f3f4f6"],
+    loop: true,
+      seed:100
     })
-  }
+
+}
+
 };
 </script>
 

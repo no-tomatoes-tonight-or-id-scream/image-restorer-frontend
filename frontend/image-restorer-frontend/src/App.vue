@@ -1,21 +1,27 @@
 <template>
-  <div class="flex h-full">
-    <div>
-      <UploadImage />
-      <AmbientLightBg />
+  <div class="relative w-full h-screen bg-gray-100 overflow-hidden">
+    <AmbientLightBg /> <!-- 背景动效 -->
+
+    <!-- 右边图片区域 -->
+    <div class="absolute right-0 top-0 w-2/3 h-full" draggable="false">
+      <ImageComparison leftImage="/images/preprocess_1.png" />
     </div>
   </div>
 </template>
 
+
 <script>
-import UploadImage from './components/UploadImage.vue';
+import Backdrop from "./components/Backdrop.vue";
 import AmbientLightBg from './components/AmbientLightBg.vue';
+import ImageComparison from "./components/ImageComparison.vue";
 
 export default {
   name: 'App',
   components: {
-    UploadImage,
+    Backdrop,
     AmbientLightBg,
+    ImageComparison
+
   }
 };
 </script>
