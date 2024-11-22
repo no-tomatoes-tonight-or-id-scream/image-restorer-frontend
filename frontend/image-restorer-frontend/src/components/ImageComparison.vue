@@ -9,7 +9,7 @@
   <div class="absolute h-full w-full" ref="container" v-if="controlImage">
     <div
         class="absolute inset-0 bg-center bg-cover blur-[25px]"
-        :style="{ backgroundImage: 'url(' + leftImage + ')' }"
+        :style="{ backgroundImage: 'url(' + dirtyImage + ')' }"
     ></div>
     <div class="absolute inset-0 bg-gradient-to-t from-grey via-transparent to-transparent"></div>
 
@@ -21,7 +21,7 @@
         draggable="false"
     >
       <img
-          :src="leftImage"
+          :src="dirtyImage"
           alt="Left Image"
           ref="leftImage"
           class="absolute inset-0 m-auto  object-contain h-full "
@@ -39,7 +39,7 @@
         draggable="false"
     >
       <img
-          :src="rightImage"
+          :src="cleanImage"
           alt="Right Image"
           ref="rightImage"
           class="absolute inset-0 m-auto object-contain h-full"
