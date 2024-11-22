@@ -109,6 +109,13 @@ export default {
 
     };
   },
+  watch: {
+    // 监听 externalProp 的变化
+    cleanImage(newVal, oldVal) {
+      // console.log("图片base",newVal);
+      this.controlImage = true;
+    },
+  },
   mounted() {
     // 获取容器的边界信息
     this.updateContainerBounds();
@@ -119,9 +126,6 @@ export default {
     window.removeEventListener('resize', this.updateContainerBounds);
   },
   methods: {
-    changeStatus(){
-      this.controlImage = !this.controlImage;
-    },
     updateContainerBounds() {
       this.containerBounds = this.$refs.container.getBoundingClientRect();
       this.leftBound = (this.$refs.leftImage.getBoundingClientRect().left - this.containerBounds.left) / this.containerBounds.width * 100;

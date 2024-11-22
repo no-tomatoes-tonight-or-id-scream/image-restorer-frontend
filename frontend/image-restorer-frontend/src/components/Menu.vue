@@ -65,11 +65,11 @@ export default {
 
   methods: {
     checkTaskStatus(task_id) {
-      const statusUrl = `https://img.jrhim.com/get_status?task_id=${task_id}`;
-      const testurl = `http://127.0.0.1:5000/get_status?task_id=${task_id}`;
+      const testurl = `https://img.jrhim.com/get_status?task_id=${task_id}`;
+      // const testurl = `http://127.0.0.1:5000/get_status?task_id=${task_id}`;
 
       // 查询任务状态
-      axios.get(testurl)
+      axios.post(testurl)
           .then((response) => {
             const { status } = response.data;
 
@@ -92,13 +92,19 @@ export default {
     },
 
     getResultImg(task_id) {
-      const resultUrl = `https://img.jrhim.com/get_result?task_id=${task_id}`;
-      const testurl = `http://127.0.0.1:5000/get_result?task_id=${task_id}`;
+      const testurl = `https://img.jrhim.com/get_result?task_id=${task_id}`;
+      // const testurl = `http://127.0.0.1:5000/get_result?task_id=${task_id}`;
       // 请求获取结果图像
       axios.get(testurl, { responseType: 'arraybuffer' })  // Use 'arraybuffer' for binary data
           .then((response) => {
             // 将图像数据转换为 Base64
-            const base64Image = `data:image/jpeg;base64,${Buffer.from(response.data, 'binary').toString('base64')}`;
+            // 将 ArrayBuffer 转换为二进制字符串
+            const binary = new Uint8Array(response.data)
+                .reduce((acc, byte) => acc + String.fromCharCode(byte), "");
+
+            // 将二进制字符串编码为 Base64
+            const base64Image = `data:image/jpeg;base64,${btoa(binary)}`;
+
             this.$emit("pics-upload",base64Image);
             // 在控制台打印 Base64 图像数据
             // console.log("图像 Base64 数据:", base64Image);
@@ -134,7 +140,7 @@ export default {
 
       //https://img.jrhim.com/process?
       // 使用 axios 发送 POST 请求
-      axios.post(`http://127.0.0.1:5000/process?${queryString}`, postData)
+      axios.post(`https://img.jrhim.com/process?${queryString}`, postData)
           .then((response) => {
             // 从响应中提取 status 和 task_id
             const { status, task_id } = response.data;
