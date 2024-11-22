@@ -99,14 +99,14 @@ export default {
           .then((response) => {
             // 将图像数据转换为 Base64
             const base64Image = `data:image/jpeg;base64,${Buffer.from(response.data, 'binary').toString('base64')}`;
-
+            this.$emit("pics-upload",base64Image);
             // 在控制台打印 Base64 图像数据
-            console.log("图像 Base64 数据:", base64Image);
-
-            // 如果需要，可以动态添加到页面上显示
-            const imgElement = document.createElement('img');
-            imgElement.src = base64Image;
-            document.body.appendChild(imgElement); // 动态插入页面
+            // console.log("图像 Base64 数据:", base64Image);
+            //
+            // // 如果需要，可以动态添加到页面上显示
+            // const imgElement = document.createElement('img');
+            // imgElement.src = base64Image;
+            // document.body.appendChild(imgElement); // 动态插入页面
           })
           .catch((error) => {
             console.error("下载结果图像失败:", error);
