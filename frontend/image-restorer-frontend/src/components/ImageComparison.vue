@@ -1,83 +1,100 @@
+<!--本组件一共分为两部分，这两个部分是互斥关系
+并且使用一个布尔值进行控制，一个部分是显示原始图片
+另外一个部分是显示两张图片的对比，初始的状态下是显示原始图片
+当收到处理好的图片后进入对比部分的容器-->
+
+
 <template>
-<!--  <div class="absolute w-full h-full z-10 " ref="container" v-if="controlImage" draggable="false">-->
-<!--    &lt;!&ndash; 左边的未处理图片部分，通过 clip-path 进行遮罩 &ndash;&gt;-->
-<!--    <div-->
-<!--        class="absolute top-0 left-0 w-full h-full overflow-hidden"-->
-<!--        :style="{ clipPath: `inset(0 0 0 ${leftWidth}%)` }"-->
-<!--        draggable="false"-->
-<!--    >-->
-<!--      <img-->
-<!--          :src="leftImage"-->
-<!--          alt="Left Image"-->
-<!--          ref="leftImage"-->
-<!--          class="absolute inset-0 m-auto  object-contain h-full py-2"-->
-
-<!--          draggable="false"-->
-<!--      />-->
-<!--    </div>-->
-
-<!--    <button class="absolute rounded-lg  bottom-0 text-xs opacity-80 bg-gray-400" :style="{left: leftBound + '%'}" v-if="controlTextLeft">Original</button>-->
-
-<!--    &lt;!&ndash; 右边的处理图片部分，通过 clip-path 进行遮罩 &ndash;&gt;-->
-<!--    <div-->
-<!--        class="absolute top-0 left-0 w-full h-full overflow-hidden"-->
-<!--        :style="{ clipPath: `inset(0 ${100 - leftWidth}% 0 0)` }"-->
-<!--        draggable="false"-->
-<!--    >-->
-<!--      <img-->
-<!--          :src="rightImage"-->
-<!--          alt="Right Image"-->
-<!--          ref="rightImage"-->
-<!--          class="absolute inset-0 m-auto object-contain h-full"-->
-<!--          draggable="false"-->
-<!--      />-->
-<!--    </div>-->
-<!--    <button class="absolute rounded-lg  bottom-0 text-xs opacity-80 bg-gray-400" :style="{right: leftBound + '%'}" v-if="controlTextRight">Processed</button>-->
-<!--    &lt;!&ndash; 滑动按钮 &ndash;&gt;-->
-<!--    <div-->
-<!--        class="absolute top-0 bottom-0 w-[3px] bg-white cursor-ew-resize z-10"-->
-<!--        :style="{ left: leftWidth + '%' }"-->
-<!--        @mousedown.prevent="startDragging"-->
-<!--    >-->
-<!--      <span-->
-<!--          class="absolute top-1/2 -left-2.5 w-5 h-5 rounded-full transform -translate-y-1/2 flex items-center justify-center"-->
-<!--      >-->
-<!--    <img src="/svgs/左右箭头.svg" alt="icon" class="w-full h-full" draggable="false"/>-->
-<!--</span>-->
-
-<!--    </div>-->
-<!--  </div>-->
-
-  <div class="absolute h-full w-full" ref="container">
+<!--  对比图片部分-->
+  <div class="absolute h-full w-full" ref="container" v-if="controlImage">
     <div
         class="absolute inset-0 bg-center bg-cover blur-[25px]"
         :style="{ backgroundImage: 'url(' + leftImage + ')' }"
     ></div>
     <div class="absolute inset-0 bg-gradient-to-t from-grey via-transparent to-transparent"></div>
-<!--    <div class="absolute inset-0 bg-grey bg-opacity-80"></div>-->
+
+
+    <!-- 左边的未处理图片部分，通过 clip-path 进行遮罩 -->
+    <div
+        class="absolute w-full h-full"
+        :style="{ clipPath: `inset(0 0 0 ${leftWidth}%)` }"
+        draggable="false"
+    >
       <img
           :src="leftImage"
+          alt="Left Image"
+          ref="leftImage"
+          class="absolute inset-0 m-auto  object-contain h-full "
+
+          draggable="false"
+      />
+    </div>
+
+    <button class="absolute rounded-lg  bottom-0 text-xs opacity-80 bg-gray-400" :style="{left: leftBound + '%'}" v-if="controlTextLeft">Original</button>
+
+    <!-- 右边的处理图片部分，通过 clip-path 进行遮罩 -->
+    <div
+        class="absolute top-0 left-0 w-full h-full overflow-hidden"
+        :style="{ clipPath: `inset(0 ${100 - leftWidth}% 0 0)` }"
+        draggable="false"
+    >
+      <img
+          :src="rightImage"
+          alt="Right Image"
+          ref="rightImage"
+          class="absolute inset-0 m-auto object-contain h-full"
+          draggable="false"
+      />
+    </div>
+    <button class="absolute rounded-lg  bottom-0 text-xs opacity-80 bg-gray-400" :style="{right: leftBound + '%'}" v-if="controlTextRight">Processed</button>
+    <!-- 滑动按钮 -->
+    <div
+        class="absolute top-0 bottom-0 w-[3px] bg-white cursor-ew-resize z-10"
+        :style="{ left: leftWidth + '%' }"
+        @mousedown.prevent="startDragging"
+    >
+      <span
+          class="absolute top-1/2 -left-2.5 w-5 h-5 rounded-full transform -translate-y-1/2 flex items-center justify-center"
+      >
+    <img src="/svgs/左右箭头.svg" alt="icon" class="w-full h-full" draggable="false"/>
+</span>
+
+    </div>
+  </div>
+
+
+<!--  原始图片部分-->
+  <div class="absolute h-full w-full" ref="container" v-else>
+    <div
+        class="absolute inset-0 bg-center bg-cover blur-[25px]"
+        :style="{ backgroundImage: 'url(' + dirtyImage + ')' }"
+    ></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-grey via-transparent to-transparent"></div>
+<!--    <div class="absolute inset-0 bg-grey bg-opacity-80"></div>-->
+      <img
+          :src="dirtyImage"
           alt="Left Image"
           ref="leftImage"
           class="absolute  object-contain  w-full h-full "
 
       />
   </div>
-  <!--          style="clip-path: inset(0 10% 0 10%);"-->
-  <!--          :style="{ transform: 'translateX(24%)' }"-->
+<!--            style="clip-path: inset(0 10% 0 10%);"-->
+<!--            :style="{ transform: 'translateX(24%)' }"-->
 </template>
 
 <script>
 export default {
   props: {
-    leftImage: {
+    dirtyImage: {
       type: String,
       required: true,
     },
-    // rightImage: {
-    //   type: String,
-    //   required: true,
-    // },
+    cleanImage: {
+      type: String,
+      required: true,
+    },
+
   },
   data() {
     return {
@@ -85,7 +102,6 @@ export default {
       isDragging: false,
       containerBounds: null,
       controlImage: false,  //控制遮罩容器加载
-      rightImage: "/images/processed_1.png",
       controlTextLeft: false,  //控制干净图片状态标签
       controlTextRight: false,  //控制脏图片状态标签
       leftBound : null,
