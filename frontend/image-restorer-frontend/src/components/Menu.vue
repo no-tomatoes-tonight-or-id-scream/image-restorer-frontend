@@ -11,8 +11,13 @@
             v-model="formData.modelType"
             class="select select-bordered w-full"
         >
-          <option value="RealESRGAN_RealESRGAN_x4plus_4x.pth">RealESRGAN_RealESRGAN_x4plus_4x</option>
-          <option value="RealESRGAN_RealESRGAN_x4plus_anime_6B_4x.pth">RealESRGAN_RealESRGAN_x4plus_anime_6B_4x</option>
+          <option
+              v-for="(value, key) in modelList"
+              :key="key"
+              :value="value"
+          >
+            {{ key }}
+          </option>
         </select>
       </div>
       <!-- 放大倍数 -->
@@ -53,6 +58,10 @@ export default {
       type: File,
       required: true,
     },
+    baseUrl: {
+      type: String,
+      required: true,
+    }
   },
   data() {
     return {
@@ -60,16 +69,20 @@ export default {
         modelType: "RealESRGAN_RealESRGAN_x4plus_4x.pth", // 默认模型
         scale: 2, // 默认放大倍数
       },
+      modelList: null,
     };
   },
-
+  mounted()
+  {
+    this.getModelList();
+  },
   methods: {
     checkTaskStatus(task_id) {
-      const testurl = `https://img.jrhim.com/get_status?task_id=${task_id}`;
-      // const testurl = `http://127.0.0.1:5000/get_status?task_id=${task_id}`;
+      const targetUrl = `${this.baseUrl}get_status?task_id=${task_id}`;
+
 
       // 查询任务状态
-      axios.post(testurl)
+      axios.get(targetUrl)
           .then((response) => {
             const { status } = response.data;
 
@@ -92,10 +105,10 @@ export default {
     },
 
     getResultImg(task_id) {
-      const testurl = `https://img.jrhim.com/get_result?task_id=${task_id}`;
-      // const testurl = `http://127.0.0.1:5000/get_result?task_id=${task_id}`;
+      const targetUrl = `${this.baseUrl}get_result?task_id=${task_id}`;
+
       // 请求获取结果图像
-      axios.get(testurl, { responseType: 'arraybuffer' })  // Use 'arraybuffer' for binary data
+      axios.get(targetUrl, { responseType: 'arraybuffer' })  // Use 'arraybuffer' for binary data
           .then((response) => {
             // 将图像数据转换为 Base64
             // 将 ArrayBuffer 转换为二进制字符串
@@ -106,13 +119,7 @@ export default {
             const base64Image = `data:image/jpeg;base64,${btoa(binary)}`;
 
             this.$emit("pics-upload",base64Image);
-            // 在控制台打印 Base64 图像数据
-            // console.log("图像 Base64 数据:", base64Image);
-            //
-            // // 如果需要，可以动态添加到页面上显示
-            // const imgElement = document.createElement('img');
-            // imgElement.src = base64Image;
-            // document.body.appendChild(imgElement); // 动态插入页面
+
           })
           .catch((error) => {
             console.error("下载结果图像失败:", error);
@@ -132,15 +139,18 @@ export default {
       const postData = new FormData();
       postData.append("image", this.uploadedFile); // 上传图片文件
 
+      console.log("提交表单的内容: ")
+      for (const [key, value] of postData.entries()) {
+        console.log(`${key}:`, value);
+      }
 
-      console.log("提交数据:", postData);
       console.log("image", this.uploadedFile);
       console.log("target_scale", this.formData.scale);
       console.log("pretrained_model_name", this.formData.modelType);
 
-      //https://img.jrhim.com/process?
+      const targetUrl = `${this.baseUrl}process?${queryString}`;
       // 使用 axios 发送 POST 请求
-      axios.post(`https://img.jrhim.com/process?${queryString}`, postData)
+      axios.post(targetUrl, postData)
           .then((response) => {
             // 从响应中提取 status 和 task_id
             const { status, task_id } = response.data;
@@ -158,6 +168,26 @@ export default {
           });
     },
 
+    //从后端中获取模型列表
+    getModelList()
+    {
+      const targetUrl = this.baseUrl + "get_model_list";
+      // console.log("基础路径",targetUrl);
+      axios.get(targetUrl)
+          .then(
+              (response) => {
+                // let modelValues = Object.values(response.data);
+                // let modelKeys = Object.keys(response.data);
+                this.modelList = response.data;
+              }
+          )
+          .catch(
+              (error)=>
+              {
+                console.log("请求模型列表出错！出错信息：",error);
+              }
+          )
+    }
 
   },
 };

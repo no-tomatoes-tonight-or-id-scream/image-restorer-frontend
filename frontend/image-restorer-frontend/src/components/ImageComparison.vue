@@ -8,7 +8,7 @@
 <!--  对比图片部分-->
   <div class="absolute h-full w-full" ref="container" v-if="controlImage">
     <div
-        class="absolute inset-0 bg-center bg-cover blur-[25px]"
+        class="absolute inset-0 bg-center bg-cover blur-[64px]"
         :style="{ backgroundImage: 'url(' + dirtyImage + ')' }"
     ></div>
     <div class="absolute inset-0 bg-gradient-to-t from-grey via-transparent to-transparent"></div>
@@ -56,7 +56,7 @@
       <span
           class="absolute top-1/2 -left-2.5 w-5 h-5 rounded-full transform -translate-y-1/2 flex items-center justify-center"
       >
-    <img src="/svgs/左右箭头.svg" alt="icon" class="w-full h-full" draggable="false"/>
+    <img src="/svgs/左右箭头.svg" alt="icon" class="icon-img w-full h-full" draggable="false"/>
 </span>
 
     </div>
@@ -169,8 +169,8 @@ export default {
 }
 img {
   border-radius: 10px;
-  border: 5px solid transparent;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19); /* 阴影 */
+  border: 30px solid transparent;
+  box-shadow:   0 0 10px rgba(0, 0, 0, 0.19), 0 0 10px rgba(0, 0, 0, 0.19); /* 阴影 */
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* 添加过渡效果 */
   /*background: radial-gradient(circle, rgba(63, 94, 251, 0.8), rgba(252, 70, 107, 0.8));*/
 }
@@ -178,6 +178,12 @@ img:hover {
 
   transform: scale(1.01); /* 略微旋转和放大 */
   filter: brightness(1.1); /* 提高亮度 */
+}
+
+.icon-img {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 
 </style>
