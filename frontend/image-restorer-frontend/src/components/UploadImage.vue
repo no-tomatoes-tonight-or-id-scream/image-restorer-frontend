@@ -85,13 +85,13 @@ export default {
 }
 
 .btn:hover {
-  background-color: #D32F2F;
+  background-color: #add8e6;
 }
 
 .icon-style {
   width: 36px;
   height: 36px;
-  color: #666; /* 图标颜色 */
+  color: #87CEEB; /* 图标颜色 */
   transition: all 0.3s ease; /* 动画过渡 */
 }
 
