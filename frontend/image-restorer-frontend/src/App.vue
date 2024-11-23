@@ -14,7 +14,7 @@
     <!-- 菜单的过渡效果 -->
     <transition name="menu-fade">
       <!-- showMenu 和 组件中的 isVisible 实现绑定-->
-      <Menu :isVisible="showMenu" :uploadedFile="uploadedFile" @pics-upload="menu2Image"/>
+      <Menu :isVisible="showMenu" :uploadedFile="uploadedFile" :baseUrl="baseUrl" @pics-upload="menu2Image"/>
     </transition>
   </div>
   </div>
@@ -44,6 +44,7 @@ export default {
       uploadedFile: null,
       dirtyImagePath: null, //未处理的图片地址
       cleanImagePath: null, //处理过的图片地址
+      baseUrl:"https://img-api.jrhim.com/",
     };
   },
   methods: {
