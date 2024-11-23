@@ -45,6 +45,7 @@
 
 <script>
 import axios, {AxiosHeaders as Buffer} from 'axios';
+import {ElLoading} from "element-plus";
 
 
 export default {
@@ -70,6 +71,8 @@ export default {
         scale: 2, // 默认放大倍数
       },
       modelList: null,
+      checkCnt: 0,
+      loadingInstance: null,
     };
   },
   mounted()
@@ -79,8 +82,7 @@ export default {
   methods: {
     checkTaskStatus(task_id) {
       const targetUrl = `${this.baseUrl}get_status?task_id=${task_id}`;
-
-
+      const loadingInstance = ElLoading.service({ fullscreen: true, text: 'Loading...' });
       // 查询任务状态
       axios.get(targetUrl)
           .then((response) => {
@@ -94,9 +96,16 @@ export default {
             } else if (status === "error") {
               console.error("任务发生错误!");
             } else {
-              console.log("任务正在处理中...");
-              // 继续轮询状态，间隔一段时间后再查询
-              setTimeout(() => this.checkTaskStatus(task_id), 5000); // 每 5 秒查询一次
+              this.checkCnt ++;
+              console.log("查询次数:", this.checkCnt);
+              if (this.checkCnt >= 60) {
+                //超时 强行get或者是其他的逻辑
+                this.getResultImg(task_id);
+                this.checkCnt = 0; // 重置
+              } else {
+                console.log("Task is still processing...");
+                setTimeout(() => this.checkTaskStatus(task_id), 2000);  // Check again after 2 seconds
+              }
             }
           })
           .catch((error) => {
@@ -105,6 +114,9 @@ export default {
     },
 
     getResultImg(task_id) {
+      //使用已有图片 测试失败原因是否包含 等待时间小于服务端图片处理时间
+      //task_id = "9fb7e4fb-a6fc-4850-b6eb-5f0c8239654e"
+      // 处理时间与上传的图片、模型的选择均有关
       const targetUrl = `${this.baseUrl}get_result?task_id=${task_id}`;
 
       // 请求获取结果图像
