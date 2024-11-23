@@ -198,8 +198,9 @@ export default {
 .menu-wrapper {
   position: fixed;
   top: 20%;
-  left: 5%;
-  width: 400px;
+  left: 2%;
+  max-width: 400px;
+  width: 30vw;
   padding: 30px;
   background: rgba(255, 255, 255, 0.2); /* 半透明背景 */
   border-radius: 12px;
