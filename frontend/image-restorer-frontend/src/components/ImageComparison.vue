@@ -6,7 +6,7 @@
 
 <template>
 <!--  对比图片部分-->
-  <div class="absolute h-full w-full" ref="container" v-if="controlImage">
+  <div class="absolute h-full w-full" ref="container" v-if="controlImage" @mousemove="checkMousePosition">
     <div
         class="absolute inset-0 bg-center bg-cover blur-[64px]"
         :style="{ backgroundImage: 'url(' + dirtyImage + ')' }"
@@ -24,13 +24,12 @@
           :src="dirtyImage"
           alt="Left Image"
           ref="leftImage"
-          class="absolute inset-0 m-auto  object-contain h-full "
-
+          class="absolute inset-0 m-auto  object-contain h-full shadow-2xl"
           draggable="false"
       />
     </div>
 
-    <button class="absolute rounded-lg  bottom-0 text-xs opacity-80 bg-gray-400" :style="{left: leftBound + '%'}" v-if="controlTextLeft">Original</button>
+    <button class="absolute rounded-lg  bottom-0 text-xs opacity-80 bg-gray-600" :style="{left: leftBound + '%'}" v-if="controlTextLeft">Original</button>
 
     <!-- 右边的处理图片部分，通过 clip-path 进行遮罩 -->
     <div
@@ -42,16 +41,17 @@
           :src="cleanImage"
           alt="Right Image"
           ref="rightImage"
-          class="absolute inset-0 m-auto object-contain h-full"
+          class="absolute inset-0 m-auto object-contain h-full shadow-2xl"
           draggable="false"
       />
     </div>
-    <button class="absolute rounded-lg  bottom-0 text-xs opacity-80 bg-gray-400" :style="{right: leftBound + '%'}" v-if="controlTextRight">Processed</button>
+    <button class="absolute rounded-lg  bottom-0 text-xs opacity-80 bg-gray-600" :style="{right: leftBound + '%'}" v-if="controlTextRight">Processed</button>
     <!-- 滑动按钮 -->
     <div
         class="absolute top-0 bottom-0 w-[3px] bg-white cursor-ew-resize z-10"
         :style="{ left: leftWidth + '%' }"
         @mousedown.prevent="startDragging"
+
     >
       <span
           class="absolute top-1/2 -left-2.5 w-5 h-5 rounded-full transform -translate-y-1/2 flex items-center justify-center"
@@ -75,7 +75,7 @@
           :src="dirtyImage"
           alt="Left Image"
           ref="leftImage"
-          class="absolute  object-contain  w-full h-full "
+          class="absolute  object-contain  w-full h-full shadow-inner"
 
       />
   </div>
@@ -118,6 +118,7 @@ export default {
   },
   mounted() {
     // 获取容器的边界信息
+
     this.updateContainerBounds();
     // 监听窗口大小变化，更新边界信息
     window.addEventListener('resize', this.updateContainerBounds);
@@ -128,6 +129,8 @@ export default {
   methods: {
     updateContainerBounds() {
       this.containerBounds = this.$refs.container.getBoundingClientRect();
+      this.imageLeftBound = this.$refs.leftImage.getBoundingClientRect().left;
+      this.imageRightBound = this.$refs.leftImage.getBoundingClientRect().right;
       this.leftBound = (this.$refs.leftImage.getBoundingClientRect().left - this.containerBounds.left) / this.containerBounds.width * 100;
       this.rightBound = (this.$refs.leftImage.getBoundingClientRect().right - this.containerBounds.left) / this.containerBounds.width * 100;
 
@@ -157,6 +160,43 @@ export default {
       // 更新滑块位置
       this.leftWidth = newLeftWidth;
     },
+    onWheel(event) {
+      this.updateContainerBounds();
+      console.log("滚轮边界",this.imageRightBound-this.imageLeftBound);
+      const step = 3; // 每次滚动调整的百分比宽度
+      let newLeftWidth = this.leftWidth + (event.deltaY > 0 ? -step : step);
+      newLeftWidth = Math.max(this.leftBound, Math.min(this.rightBound, newLeftWidth));
+
+      if (newLeftWidth === this.leftBound)
+        this.controlTextLeft = true;
+      else if (newLeftWidth === this.rightBound)
+        this.controlTextRight = true;
+      else
+        this.controlTextRight = this.controlTextLeft = false;
+
+      // 更新滑块位置
+      this.leftWidth = newLeftWidth;
+
+      // 阻止页面滚动
+      event.preventDefault();
+    },
+
+    checkMousePosition(event)
+    {
+      // 检查鼠标是否在容器范围内
+      const relativeX = event.clientX - this.imageLeftBound;
+      const isInside = relativeX >= 0 && relativeX <= (this.imageRightBound-this.imageLeftBound);
+
+      if (isInside)
+      {
+        this.$refs.container.addEventListener('wheel', this.onWheel);
+      }
+      else
+      {
+        this.$refs.container.removeEventListener('wheel', this.onWheel);
+      }
+    },
+
 
   },
 };
@@ -167,23 +207,12 @@ export default {
 .bg-black {
   background-color: #000;
 }
-img {
-  border-radius: 10px;
-  border: 30px solid transparent;
-  box-shadow:   0 0 10px rgba(0, 0, 0, 0.19), 0 0 10px rgba(0, 0, 0, 0.19); /* 阴影 */
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* 添加过渡效果 */
-  /*background: radial-gradient(circle, rgba(63, 94, 251, 0.8), rgba(252, 70, 107, 0.8));*/
-}
+
 img:hover {
 
   transform: scale(1.01); /* 略微旋转和放大 */
   filter: brightness(1.1); /* 提高亮度 */
 }
 
-.icon-img {
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
 
 </style>
