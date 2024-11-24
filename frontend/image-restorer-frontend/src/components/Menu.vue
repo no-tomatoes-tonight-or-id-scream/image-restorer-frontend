@@ -34,12 +34,13 @@
                 v-model.number="formData.scale"
                 min="1"
                 max="2.5"
-                step="0.05"
-                class="range range-primary"
+                step="0.1"
+                class="range range-primary custom-slider"
             />
             <span class="ml-4 text-lg">{{ formData.scale.toFixed(1) }}</span>
           </div>
         </div>
+
         <button type="submit" class="btn btn-success w-full text-lg">
           提交
         </button>
@@ -207,6 +208,53 @@ export default {
 
 .menu-item {
   margin-bottom: 20px;
+}
+
+.custom-slider {
+  -webkit-appearance: none; /* 去除默认样式 */
+  width: 100%;
+  height: 8px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #34d399, #3b82f6); /* 渐变色背景 */
+  outline: none;
+  opacity: 0.9;
+  transition: opacity 0.3s, background 0.3s;
+}
+
+.custom-slider:hover {
+  opacity: 1;
+}
+
+.custom-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* 去除默认样式 */
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #f472b6; /* 滑块颜色 */
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 添加阴影 */
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.custom-slider::-webkit-slider-thumb:hover {
+  background: #ec4899; /* 鼠标悬停变色 */
+  transform: scale(1.2); /* 鼠标悬停放大 */
+}
+
+.custom-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: #f472b6;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.custom-slider::-moz-range-thumb:hover {
+  background: #ec4899;
+  transform: scale(1.2);
 }
 
 .loading-overlay {
