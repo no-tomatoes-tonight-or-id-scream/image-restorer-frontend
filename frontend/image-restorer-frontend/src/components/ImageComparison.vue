@@ -91,7 +91,7 @@ export default {
       required: true,
     },
     cleanImage: {
-      type: String,
+      type: [String, null],
       required: true,
     },
 
