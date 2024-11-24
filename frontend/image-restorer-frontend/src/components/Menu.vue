@@ -12,6 +12,7 @@
               v-model="formData.modelType"
               class="select select-bordered w-full"
           >
+            <!-- 显示模型选项 -->
             <option
                 v-for="(value, key) in modelList"
                 :key="key"
@@ -26,16 +27,18 @@
           <label for="scale" class="label">
             <span class="label-text text-lg font-semibold">放大倍数:</span>
           </label>
-          <select
-              id="scale"
-              v-model.number="formData.scale"
-              class="select select-bordered w-full"
-          >
-            <option :value="2">2</option>
-            <option :value="4">4</option>
-            <option :value="5">5</option>
-            <option :value="8">8</option>
-          </select>
+          <div class="flex items-center">
+            <input
+                id="scale"
+                type="range"
+                v-model.number="formData.scale"
+                min="1"
+                max="2.5"
+                step="0.05"
+                class="range range-primary"
+            />
+            <span class="ml-4 text-lg">{{ formData.scale.toFixed(1) }}</span>
+          </div>
         </div>
         <button type="submit" class="btn btn-success w-full text-lg">
           提交
@@ -46,16 +49,21 @@
     <!-- 加载界面 -->
     <div v-if="isLoading" class="loading-overlay">
       <div class="flex flex-col items-center justify-center h-screen">
-        <div class="loading loading-spinner w-16 h-16"></div>
+        <div class="box">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
         <p class="text-white text-xl mt-4">处理中，请稍候...</p>
       </div>
     </div>
   </div>
 </template>
 
-
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   name: "Menu",
@@ -72,20 +80,15 @@ export default {
       type: String,
       required: true,
     },
-    // isLoading: {
-    //   type: Boolean,
-    //   default: false,
-    //   required: true,
-    // },
   },
-  emits: ["pics-upload"], // 声明事件
+  emits: ["pics-upload"],
   data() {
     return {
       formData: {
-        modelType: "RealESRGAN_RealESRGAN_x4plus_4x.pth", // 默认模型
-        scale: 2, // 默认放大倍数
+        modelType: "", // 默认模型为空，动态填充
+        scale: 1.0, // 默认放大倍数
       },
-      modelList: null,
+      modelList: {}, // 初始化为空对象，确保 v-for 能正常运行
       checkCnt: 0,
       isLoading: false, // 加载状态
     };
@@ -99,15 +102,14 @@ export default {
       axios
           .get(targetUrl)
           .then((response) => {
-            const {status} = response.data;
+            const { status } = response.data;
             console.log("任务状态:", status);
 
             if (status === "completed") {
-              //this.isLoading = false; // 加载完成后隐藏
               this.getResultImg(task_id);
               setTimeout(() => {
                 this.isLoading = false; // 加载完成后隐藏
-              }, 1500); // 等待 2000 毫秒（2 秒）
+              }, 1500);
             } else if (status === "error") {
               this.isLoading = false;
               console.error("任务发生错误!");
@@ -130,7 +132,7 @@ export default {
     getResultImg(task_id) {
       const targetUrl = `${this.baseUrl}get_result?task_id=${task_id}`;
       axios
-          .get(targetUrl, {responseType: "arraybuffer"})
+          .get(targetUrl, { responseType: "arraybuffer" })
           .then((response) => {
             const binary = new Uint8Array(response.data).reduce(
                 (acc, byte) => acc + String.fromCharCode(byte),
@@ -158,7 +160,7 @@ export default {
       axios
           .post(targetUrl, postData)
           .then((response) => {
-            const {status, task_id} = response.data;
+            const { status, task_id } = response.data;
             console.log("status:", status, "task_id:", task_id);
             this.checkTaskStatus(task_id);
           })
@@ -169,14 +171,19 @@ export default {
     },
 
     getModelList() {
-      const targetUrl = this.baseUrl + "get_model_list";
+      const targetUrl = `${this.baseUrl}get_model_list`;
       axios
           .get(targetUrl)
           .then((response) => {
             this.modelList = response.data;
+            // 设置默认模型为返回列表中的第一个模型
+            const firstModel = Object.values(response.data)[0];
+            if (firstModel) {
+              this.formData.modelType = firstModel;
+            }
           })
           .catch((error) => {
-            console.log("请求模型列表出错！出错信息：", error);
+            console.error("请求模型列表出错！出错信息：", error);
           });
     },
   },
@@ -214,5 +221,58 @@ export default {
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(10px); /* 背景模糊 */
+}
+
+.box {
+  position: relative;
+  width: 100px;
+  height: 50px;
+  margin: 0 auto;
+}
+
+.box span {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #3498db;
+  opacity: 0.5;
+  border-radius: 100%;
+  animation: anim 1s infinite ease-in-out;
+}
+
+.box > :nth-child(2) {
+  left: 20px;
+  animation-delay: 0.2s;
+}
+
+.box > :nth-child(3) {
+  left: 40px;
+  animation-delay: 0.4s;
+}
+
+.box > :nth-child(4) {
+  left: 60px;
+  animation-delay: 0.6s;
+}
+
+.box > :nth-child(5) {
+  left: 80px;
+  animation-delay: 0.8s;
+}
+
+@keyframes anim {
+  0% {
+    opacity: 0.3;
+    transform: translateY(0px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-10px);
+    background: #f9cdff;
+  }
+  100% {
+    opacity: 0.3;
+    transform: translateY(0px);
+  }
 }
 </style>
