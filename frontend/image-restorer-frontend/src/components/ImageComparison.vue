@@ -24,7 +24,7 @@
           :src="dirtyImage"
           alt="Left Image"
           ref="leftImage"
-          class="absolute inset-0 m-auto  object-contain h-full shadow-2xl"
+          class="absolute inset-0 m-auto  object-contain h-full  rounded-xl shadow-[0_0_50px_20px_rgba(255,255,255,0.5)]"
           draggable="false"
       />
     </div>
@@ -41,7 +41,7 @@
           :src="cleanImage"
           alt="Right Image"
           ref="rightImage"
-          class="absolute inset-0 m-auto object-contain h-full shadow-2xl"
+          class="absolute inset-0 m-auto object-contain h-full rounded-xl shadow-[0_0_50px_20px_rgba(255,255,255,0.5)]"
           draggable="false"
       />
     </div>
@@ -75,7 +75,7 @@
           :src="dirtyImage"
           alt="Left Image"
           ref="leftImage"
-          class="absolute  object-contain  w-full h-full shadow-inner"
+          class="absolute inset-0 m-auto object-contain h-full rounded-xl shadow-[0_0_50px_20px_rgba(255,255,255,0.5)]"
 
       />
   </div>
