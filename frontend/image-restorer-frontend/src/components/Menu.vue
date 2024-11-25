@@ -116,6 +116,7 @@ export default {
             this.checkCnt++;
             if (this.checkCnt >= 60) {
               this.getResultImg(task_id);
+                this.isLoading = false;
               this.checkCnt = 0;
             } else {
               setTimeout(() => this.checkTaskStatus(task_id), 2000);
@@ -142,6 +143,7 @@ export default {
         })
         .catch((error) => {
           console.error("下载结果图像失败：", error);
+            this.isLoading = false;
         });
     },
 
