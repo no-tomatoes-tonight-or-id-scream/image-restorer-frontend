@@ -1,25 +1,37 @@
 <template>
+  <div class="title">
+    <h1>
+      Image <br />
+      Restorer
+    </h1>
+  </div>
   <div class="upload-btn-wrapper">
     <!-- 上传按钮 -->
     <button
-        v-if="!uploadComplete"
-        class="btn btn-lg btn-outline w-[360px] h-[80px] text-2xl font-bold
-      shadow-md flex items-center justify-center space-x-2 transition-all duration-300"
-        :class="{ 'hover-active': isHovered, 'hover:translate-x-[-25px]': isHovered }"
-        @mouseenter="handleMouseEnter"
-        @mouseleave="handleMouseLeave"
-        @click="triggerFileInput"
+      v-if="!uploadComplete"
+      class="btn btn-lg btn-outline w-[360px] h-[80px] text-2xl font-bold shadow-md flex items-center justify-center space-x-2 transition-all duration-300"
+      :class="{
+        'hover-active': isHovered,
+        'hover:translate-x-[-25px]': isHovered,
+      }"
+      @mouseenter="handleMouseEnter"
+      @mouseleave="handleMouseLeave"
+      @click="triggerFileInput"
     >
-      <UploadFilled class="icon-style" :class="{ 'icon-hover': isHovered }" /> <!-- 图标 -->
-      <span class="text-style" :class="{ 'text-hide': isHovered }">上传图片</span> <!-- 文字 -->
+      <UploadFilled class="icon-style" :class="{ 'icon-hover': isHovered }" />
+      <!-- 图标 -->
+      <span class="text-style" :class="{ 'text-hide': isHovered }"
+        >上传图片</span
+      >
+      <!-- 文字 -->
     </button>
     <!-- 隐藏的文件输入框 -->
     <input
-        ref="fileInput"
-        type="file"
-        @change="handleFileUpload"
-        accept="image/*"
-        class="hidden"
+      ref="fileInput"
+      type="file"
+      @change="handleFileUpload"
+      accept="image/*"
+      class="hidden"
     />
   </div>
 </template>
@@ -48,7 +60,7 @@ export default {
     handleFileUpload(event) {
       const file = event.target.files[0];
       if (file) {
-        console.log("文件已上传:", file);
+        console.log("文件已上传：", file);
         this.uploadComplete = true; // 设置上传完成状态
         this.$emit("file-uploaded", file); // 触发上传完成事件
       }
@@ -62,11 +74,24 @@ export default {
 </script>
 
 <style scoped>
+.title {
+  position: fixed;
+  color: #283c63;
+  z-index: 10;
+}
+.title h1 {
+  font-size: 440px;
+  font-weight: 900;
+  color: #fbe8d3cd;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  line-height: 1.2;
+}
+
 .upload-btn-wrapper {
   position: fixed;
   top: 50%;
   left: 10%;
-  transform: translateY(-50%);
+  /* transform: translateY(-50%); */
   z-index: 10;
 }
 
@@ -74,36 +99,36 @@ export default {
   display: flex;
   align-items: center; /* 垂直居中 */
   justify-content: center; /* 水平居中 */
-  background-color: #ffffff;
+  background-color: #fbe8d3;
   border: none;
   border-radius: 40px; /* 圆角按钮 */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  color: #333; /* 文字颜色 */
   overflow: hidden; /* 防止动画溢出 */
   transition: all 0.3s ease; /* 整体动画效果 */
 }
 
 .btn:hover {
-  background-color: #add8e6;
+  background-color: #283c63;
 }
 
 .icon-style {
   width: 36px;
   height: 36px;
-  color: #87CEEB; /* 图标颜色 */
+  color: #283c63; /* 图标颜色 */
   transition: all 0.3s ease; /* 动画过渡 */
 }
 
 .icon-hover {
   width: 72px; /* 鼠标悬停时图标放大 */
   height: 72px;
+  color: #ffffff;
 }
 
 .text-style {
   font-size: 28px; /* 初始文字大小 */
   line-height: 42px; /* 行高 */
-  color: #333;
+  color: #283c63;
   transition: all 0.3s ease; /* 动画过渡 */
 }
 

@@ -4,14 +4,15 @@
 
 <template>
   <div
-      class="absolute items-center justify-center w-full h-full mb-6 pb-4 text-4xl font-bold md:text-6xl bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">
+    class="absolute items-center justify-center w-full h-full mb-6 pb-4 text-4xl font-bold md:text-6xl bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500"
+  >
     No Tomatoes Tonight
   </div>
 
-<!--  <h4 class="text-white mx-auto mb-5 max-w-[528px] text-xl lg:mb-8">-->
-<!--    Craft stunning grainy-style gradients using Tailwind CSS's extensive palette of colors, ideal for enhancing your-->
-<!--    desktop or mobile wallpapers.-->
-<!--  </h4>-->
+  <!--  <h4 class="text-white mx-auto mb-5 max-w-[528px] text-xl lg:mb-8">-->
+  <!--    Craft stunning grainy-style gradients using Tailwind CSS's extensive palette of colors, ideal for enhancing your-->
+  <!--    desktop or mobile wallpapers.-->
+  <!--  </h4>-->
 </template>
 
 <style scoped>

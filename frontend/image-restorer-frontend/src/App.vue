@@ -2,7 +2,7 @@
   <div class="absolute w-full h-full z-0">
     <AestheticFluidBg />
     <!-- 背景动效 -->
-<!--    <TitlePage />-->
+    <!--    <TitlePage />-->
     <!-- 右边图片区域 -->
     <div
       class="absolute right-0 w-2/3 h-full z-10 m-4"
@@ -14,22 +14,22 @@
         :cleanImage="cleanImagePath"
       />
     </div>
-  <div id="app">
-    <!-- 上传按钮的过渡效果 -->
-    <transition name="btn-fade" @after-leave="showMenu = true">
-      <UploadImage v-if="showButton" @file-uploaded="handleFile" />
-    </transition>
-    <!-- 菜单的过渡效果 -->
-    <transition name="menu-fade">
-      <!-- showMenu 和 组件中的 isVisible 实现绑定-->
+    <div id="app">
+      <!-- 上传按钮的过渡效果 -->
+      <transition name="btn-fade" @after-leave="showMenu = true">
+        <UploadImage v-if="showButton" @file-uploaded="handleFile" />
+      </transition>
+      <!-- 菜单的过渡效果 -->
+      <transition name="menu-fade">
+        <!-- showMenu 和 组件中的 isVisible 实现绑定-->
         <Menu
           :isVisible="showMenu"
           :uploadedFile="uploadedFile"
           :baseUrl="baseUrl"
           @pics-upload="menu2Image"
         />
-    </transition>
-  </div>
+      </transition>
+    </div>
   </div>
 </template>
 
