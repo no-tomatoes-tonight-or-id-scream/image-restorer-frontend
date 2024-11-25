@@ -144,6 +144,7 @@ export default {
           })
           .catch((error) => {
             console.error("下载结果图像失败:", error);
+            this.isLoading = false;
           });
     },
 
