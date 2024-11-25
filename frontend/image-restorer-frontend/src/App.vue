@@ -1,7 +1,7 @@
 <template>
-  <div class="absolute w-full h-screen z-0">
+  <div class="absolute  w-full h-screen z-0">
     <AmbientLightBg /> <!-- 背景动效 -->
-
+<!--    <TitlePage />-->
     <!-- 右边图片区域 -->
     <div class="absolute right-0 w-2/3 h-screen z-10" draggable="false" v-if="!showButton">
       <ImageComparison :dirtyImage="dirtyImagePath" :cleanImage="cleanImagePath" />
@@ -27,6 +27,7 @@ import AmbientLightBg from './components/AmbientLightBg.vue';
 import ImageComparison from "./components/ImageComparison.vue";
 import UploadImage from "@/components/UploadImage.vue";
 import Menu from "@/components/Menu.vue";
+import TitlePage from "@/components/TitlePage.vue";
 
 export default {
   name: 'App',
@@ -36,6 +37,7 @@ export default {
     ImageComparison,
     UploadImage,
     Menu,
+    TitlePage,
   },
   data() {
     return {
