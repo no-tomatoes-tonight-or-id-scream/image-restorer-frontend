@@ -1,22 +1,60 @@
-# image-restorer-frontend
-## Run
-To configure and run the project, follow these steps:
+# Image Restorer Frontend
 
-1. **Ensure Vue, Node.js, and npm are installed**:
-   Make sure you have Vue, Node.js, and npm installed on your system. You can download and install Node.js from [nodejs.org](https://nodejs.org/), which includes npm.
+A Vue-based project featuring Vuetify, tailwind CSS.
 
-2. **Install dependencies**:
-   Navigate to the project directory where the `package.json` file is located and run the following command to install the necessary dependencies:
+## Prerequisites
 
-   ```sh
-   npm install
+Ensure you have the following installed before starting:
+
+- **Node.js** (v16 or later recommended)  
+  [Download Node.js](https://nodejs.org/)  
+  Verify installation:  
+
+  ```bash
+  node -v
+  npm -v
+  ```
+
+
+
+## Getting Started
+
+To set up and run this project locally, follow these steps:
+
+1. **Clone the Repository**
+
+   Clone the repository from GitHub to your local machine:
+
+   ```bash
+   git clone https://github.com/no-tomatoes-tonight-or-id-scream/image-restorer-frontend.git
    ```
 
-3. **Run the development server**:
-   Use the following command to start the development server:
+3. **Install Dependencies**
 
-   ```sh
+   This project uses the following key dependencies:
+
+   - **[@jamescoyle/vue-icon](https://github.com/jamescoyle/vue-icon)**: A Vue plugin for creating SVG icons.
+   - **vue-router**: The official Vue.js router for managing page navigation.
+   - **[vuetify](https://vuetifyjs.com/)**: A Material Design component framework for Vue.js.
+
+   Install all required dependencies using npm:
+
+   ```bash
+   npm install vue-icon
+   npm install vue-router
+   npm install vuetify
+   ```
+
+4. **Run the Project**
+
+   Start the development server:
+
+   ```bash
    npm run dev
    ```
 
-These steps will help you set up and run the project.
+​	By default, the application will be accessible at `http://localhost:5173`
+
+## Support
+
+- If you have any questions or encounter issues, feel free to open an issue on GitHub.
