@@ -29,23 +29,34 @@ To set up and run this project locally, follow these steps:
    git clone https://github.com/no-tomatoes-tonight-or-id-scream/image-restorer-frontend.git
    ```
 
-3. **Install Dependencies**
+2. **Install Dependencies**
 
-   This project uses the following key dependencies:
+    In addition to the Vue base dependencies, this project uses the following key dependencies:
 
-   - **[@jamescoyle/vue-icon](https://github.com/jamescoyle/vue-icon)**: A Vue plugin for creating SVG icons.
-   - **vue-router**: The official Vue.js router for managing page navigation.
-   - **[vuetify](https://vuetifyjs.com/)**: A Material Design component framework for Vue.js.
+    - **[@element-plus/icons-vue](https://github.com/element-plus/element-plus-icons)**: Element Plus icons for Vue 3.
+    - **[axios](https://axios-http.com/)**: A promise-based HTTP client for the browser and Node.js.
+    - **[daisyui](https://daisyui.com/)**: A plugin for Tailwind CSS that provides a set of accessible UI components.
+    - **[element-plus](https://element-plus.org/)**: A Vue 3 based component library for developers, designers, and product managers.
+    - **[tailwindcss](https://tailwindcss.com/)**: A utility-first CSS framework for rapid UI development.
+    - **[vue-router](https://router.vuejs.org/)**: The official router for Vue.js for managing page navigation.
+    - **[vuetify](https://vuetifyjs.com/)**: A Material Design component framework for Vue.js.
 
-   Install all required dependencies using npm:
+    You can use the `npm list` in the project directory to see if these dependencies are already installed.
+    
+    Install all required dependencies using npm:
 
-   ```bash
-   npm install vue-icon
-   npm install vue-router
-   npm install vuetify
-   ```
+    Navigate to the project directory where the `package.json` file is located and run the following command to install the necessary dependencies:
+    ```bash
+    npm install
+    ```
+   Or use the following command when you check for the lack of a particular dependency
+    ```bash
+    npm install vue-icon
+    npm install vue-router
+    npm install vuetify
+    ```
 
-4. **Run the Project**
+3. **Run the Project**
 
    Start the development server:
 
