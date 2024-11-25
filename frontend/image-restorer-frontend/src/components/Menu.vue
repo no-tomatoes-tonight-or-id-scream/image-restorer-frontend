@@ -118,6 +118,7 @@ export default {
               this.checkCnt++;
               if (this.checkCnt >= 60) {
                 this.getResultImg(task_id);
+                this.isLoading = false;
                 this.checkCnt = 0;
               } else {
                 setTimeout(() => this.checkTaskStatus(task_id), 2000);
