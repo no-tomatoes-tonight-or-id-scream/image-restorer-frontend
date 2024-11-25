@@ -22,13 +22,14 @@ Ensure you have the following installed before starting:
 To set up and run this project locally, follow these steps:
 
 1. **Clone the Repository**
+
    Clone the repository from GitHub to your local machine:
 
    ```bash
    git clone https://github.com/no-tomatoes-tonight-or-id-scream/image-restorer-frontend.git
    ```
 
-2. **Install Dependencies**
+3. **Install Dependencies**
 
    This project uses the following key dependencies:
 
@@ -44,7 +45,8 @@ To set up and run this project locally, follow these steps:
    npm install vuetify
    ```
 
-3. **Run the Project**
+4. **Run the Project**
+
    Start the development server:
 
    ```bash
