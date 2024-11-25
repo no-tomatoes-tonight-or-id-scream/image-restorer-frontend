@@ -15,6 +15,8 @@ Ensure you have the following installed before starting:
   npm -v
   ```
 
+
+
 ## Getting Started
 
 To set up and run this project locally, follow these steps:
@@ -53,4 +55,4 @@ To set up and run this project locally, follow these steps:
 
 ## Support
 
-- If you have any questions or encounter issues, feel free to open an issue on GitHub or contact us at yuyizhen@stu.ouc.edu.cn.
+- If you have any questions or encounter issues, feel free to open an issue on GitHub.
