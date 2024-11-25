@@ -1,39 +1,52 @@
 <template>
-  <div class="absolute  w-full h-screen z-0">
-    <AmbientLightBg /> <!-- 背景动效 -->
-<!--    <TitlePage />-->
+  <div class="absolute w-full h-full z-0">
+    <AestheticFluidBg />
+    <!-- 背景动效 -->
+    <!--    <TitlePage />-->
     <!-- 右边图片区域 -->
-    <div class="absolute right-0 w-2/3 h-screen z-10" draggable="false" v-if="!showButton">
-      <ImageComparison :dirtyImage="dirtyImagePath" :cleanImage="cleanImagePath" />
+    <div
+      class="absolute right-0 w-2/3 h-full z-10 m-4"
+      draggable="false"
+      v-if="!showButton"
+    >
+      <ImageComparison
+        :dirtyImage="dirtyImagePath"
+        :cleanImage="cleanImagePath"
+      />
     </div>
-  <div id="app">
-    <!-- 上传按钮的过渡效果 -->
-    <transition name="btn-fade" @after-leave="showMenu = true">
-      <UploadImage v-if="showButton" @file-uploaded="handleFile" />
-    </transition>
-    <!-- 菜单的过渡效果 -->
-    <transition name="menu-fade">
-      <!-- showMenu 和 组件中的 isVisible 实现绑定-->
-      <Menu :isVisible="showMenu" :uploadedFile="uploadedFile" :baseUrl="baseUrl" @pics-upload="menu2Image"/>
-    </transition>
-  </div>
+    <div id="app">
+      <!-- 上传按钮的过渡效果 -->
+      <transition name="btn-fade" @after-leave="showMenu = true">
+        <UploadImage v-if="showButton" @file-uploaded="handleFile" />
+      </transition>
+      <!-- 菜单的过渡效果 -->
+      <transition name="menu-fade">
+        <!-- showMenu 和 组件中的 isVisible 实现绑定-->
+        <Menu
+          :isVisible="showMenu"
+          :uploadedFile="uploadedFile"
+          :baseUrl="baseUrl"
+          @pics-upload="menu2Image"
+        />
+      </transition>
+    </div>
   </div>
 </template>
 
-
 <script>
 import Backdrop from "./components/Backdrop.vue";
-import AmbientLightBg from './components/AmbientLightBg.vue';
+import AestheticFluidBg from "./components/AestheticFluidBg.vue";
+import AmbientLightBg from "./components/AmbientLightBg.vue";
 import ImageComparison from "./components/ImageComparison.vue";
 import UploadImage from "@/components/UploadImage.vue";
 import Menu from "@/components/Menu.vue";
 import TitlePage from "@/components/TitlePage.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     Backdrop,
-    AmbientLightBg,
+    AestheticFluidBg,
     ImageComparison,
     UploadImage,
     Menu,
@@ -46,12 +59,12 @@ export default {
       uploadedFile: null,
       dirtyImagePath: null, //未处理的图片地址
       cleanImagePath: null, //处理过的图片地址
-      baseUrl:"https://img-api.jrhim.com/",
+      baseUrl: "https://img-api.jrhim.com/",
     };
   },
   methods: {
     handleFile(file) {
-      console.log("App.vue 收到文件:", file);
+      console.log("App.vue 收到文件：", file);
       this.uploadedFile = file;
       this.dirtyImagePath = URL.createObjectURL(file);
       this.showButton = false; // 隐藏上传按钮
@@ -60,17 +73,16 @@ export default {
         console.log("showMenu 设置为 true:", this.showMenu);
       }, 500); // 与过渡效果匹配
     },
-    menu2Image(cleanImagePath)
-    {
+    menu2Image(cleanImagePath) {
       this.cleanImagePath = cleanImagePath;
-    }
+    },
   },
 };
-
 </script>
 
 <style scoped>
-html, body {
+html,
+body {
   width: 100%;
   height: 100%;
   margin: 0;

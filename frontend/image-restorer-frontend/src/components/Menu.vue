@@ -5,19 +5,15 @@
         <!-- 模型选择 -->
         <div class="menu-item">
           <label for="modelType" class="label">
-            <span class="label-text text-lg font-semibold">模型:</span>
+            <span class="label-text text-lg font-semibold">模型：</span>
           </label>
           <select
-              id="modelType"
-              v-model="formData.modelType"
-              class="select select-bordered w-full"
+            id="modelType"
+            v-model="formData.modelType"
+            class="select select-bordered w-full"
           >
             <!-- 显示模型选项 -->
-            <option
-                v-for="(value, key) in modelList"
-                :key="key"
-                :value="value"
-            >
+            <option v-for="(value, key) in modelList" :key="key" :value="value">
               {{ key }}
             </option>
           </select>
@@ -25,17 +21,17 @@
         <!-- 放大倍数 -->
         <div class="menu-item">
           <label for="scale" class="label">
-            <span class="label-text text-lg font-semibold">放大倍数:</span>
+            <span class="label-text text-lg font-semibold">放大倍数：</span>
           </label>
           <div class="flex items-center">
             <input
-                id="scale"
-                type="range"
-                v-model.number="formData.scale"
-                min="1"
-                max="2.5"
-                step="0.1"
-                class="range range-primary custom-slider"
+              id="scale"
+              type="range"
+              v-model.number="formData.scale"
+              min="1"
+              max="2.5"
+              step="0.1"
+              class="range-primary custom-slider"
             />
             <span class="ml-4 text-lg">{{ formData.scale.toFixed(1) }}</span>
           </div>
@@ -48,16 +44,18 @@
     </div>
 
     <!-- 加载界面 -->
-    <div v-if="isLoading" class="loading-overlay">
-      <div class="flex flex-col items-center justify-center h-screen">
-        <div class="box">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
+    <div v-if="isLoading" class="loading-overlay" v-cloak>
+      <div id="original">
+        <div class="flex flex-col items-center justify-center h-screen">
+          <div class="box">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <p class="text-white text-xl mt-4">处理中，请稍候...</p>
         </div>
-        <p class="text-white text-xl mt-4">处理中，请稍候...</p>
       </div>
     </div>
   </div>
@@ -101,50 +99,52 @@ export default {
     checkTaskStatus(task_id) {
       const targetUrl = `${this.baseUrl}get_status?task_id=${task_id}`;
       axios
-          .get(targetUrl)
-          .then((response) => {
-            const { status } = response.data;
-            console.log("任务状态:", status);
+        .get(targetUrl)
+        .then((response) => {
+          const { status } = response.data;
+          console.log("任务状态：", status);
 
-            if (status === "completed") {
-              this.getResultImg(task_id);
-              setTimeout(() => {
-                this.isLoading = false; // 加载完成后隐藏
-              }, 1500);
-            } else if (status === "error") {
-              this.isLoading = false;
-              console.error("任务发生错误!");
-            } else {
-              this.checkCnt++;
-              if (this.checkCnt >= 60) {
-                this.getResultImg(task_id);
-                this.checkCnt = 0;
-              } else {
-                setTimeout(() => this.checkTaskStatus(task_id), 2000);
-              }
-            }
-          })
-          .catch((error) => {
+          if (status === "completed") {
+            this.getResultImg(task_id);
+            setTimeout(() => {
+              this.isLoading = false; // 加载完成后隐藏
+            }, 1500);
+          } else if (status === "error") {
             this.isLoading = false;
-            console.error("查询任务状态失败:", error);
-          });
+            console.error("任务发生错误！");
+          } else {
+            this.checkCnt++;
+            if (this.checkCnt >= 60) {
+              this.getResultImg(task_id);
+                this.isLoading = false;
+              this.checkCnt = 0;
+            } else {
+              setTimeout(() => this.checkTaskStatus(task_id), 2000);
+            }
+          }
+        })
+        .catch((error) => {
+          this.isLoading = false;
+          console.error("查询任务状态失败：", error);
+        });
     },
 
     getResultImg(task_id) {
       const targetUrl = `${this.baseUrl}get_result?task_id=${task_id}`;
       axios
-          .get(targetUrl, { responseType: "arraybuffer" })
-          .then((response) => {
-            const binary = new Uint8Array(response.data).reduce(
-                (acc, byte) => acc + String.fromCharCode(byte),
-                ""
-            );
-            const base64Image = `data:image/jpeg;base64,${btoa(binary)}`;
-            this.$emit("pics-upload", base64Image);
-          })
-          .catch((error) => {
-            console.error("下载结果图像失败:", error);
-          });
+        .get(targetUrl, { responseType: "arraybuffer" })
+        .then((response) => {
+          const binary = new Uint8Array(response.data).reduce(
+            (acc, byte) => acc + String.fromCharCode(byte),
+            ""
+          );
+          const base64Image = `data:image/jpeg;base64,${btoa(binary)}`;
+          this.$emit("pics-upload", base64Image);
+        })
+        .catch((error) => {
+          console.error("下载结果图像失败：", error);
+            this.isLoading = false;
+        });
     },
 
     handleSubmit() {
@@ -159,33 +159,33 @@ export default {
 
       const targetUrl = `${this.baseUrl}process?${queryString}`;
       axios
-          .post(targetUrl, postData)
-          .then((response) => {
-            const { status, task_id } = response.data;
-            console.log("status:", status, "task_id:", task_id);
-            this.checkTaskStatus(task_id);
-          })
-          .catch((error) => {
-            this.isLoading = false;
-            console.error("错误:", error);
-          });
+        .post(targetUrl, postData)
+        .then((response) => {
+          const { status, task_id } = response.data;
+          console.log("status:", status, "task_id:", task_id);
+          this.checkTaskStatus(task_id);
+        })
+        .catch((error) => {
+          this.isLoading = false;
+          console.error("错误：", error);
+        });
     },
 
     getModelList() {
       const targetUrl = `${this.baseUrl}get_model_list`;
       axios
-          .get(targetUrl)
-          .then((response) => {
-            this.modelList = response.data;
-            // 设置默认模型为返回列表中的第一个模型
-            const firstModel = Object.values(response.data)[0];
-            if (firstModel) {
-              this.formData.modelType = firstModel;
-            }
-          })
-          .catch((error) => {
-            console.error("请求模型列表出错！出错信息：", error);
-          });
+        .get(targetUrl)
+        .then((response) => {
+          this.modelList = response.data;
+          // 设置默认模型为返回列表中的第一个模型
+          const firstModel = Object.values(response.data)[0];
+          if (firstModel) {
+            this.formData.modelType = firstModel;
+          }
+        })
+        .catch((error) => {
+          console.error("请求模型列表出错！出错信息：", error);
+        });
     },
   },
 };
@@ -199,15 +199,20 @@ export default {
   max-width: 400px;
   width: 30vw;
   padding: 30px;
-  background: rgba(255, 255, 255, 0.2); /* 半透明背景 */
+  background: #131a268e; /* 半透明背景 */
   border-radius: 12px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* 柔和阴影 */
   z-index: 50;
-  backdrop-filter: blur(10px); /* 背景模糊 */
+  backdrop-filter: blur(50px); /* 背景模糊 */
 }
 
 .menu-item {
   margin-bottom: 20px;
+}
+
+.btn-success {
+  background: #fbe8d3; /* 绿色按钮 */
+  color: #283c63; /* 白色文字 */
 }
 
 .custom-slider {
@@ -215,7 +220,7 @@ export default {
   width: 100%;
   height: 8px;
   border-radius: 10px;
-  background: linear-gradient(90deg, #34d399, #3b82f6); /* 渐变色背景 */
+  background: linear-gradient(90deg, #928a97, #283c63); /* 渐变色背景 */
   outline: none;
   opacity: 0.9;
   transition: opacity 0.3s, background 0.3s;
@@ -230,7 +235,7 @@ export default {
   appearance: none;
   width: 20px;
   height: 20px;
-  background: #f472b6; /* 滑块颜色 */
+  background: #fbe8d3; /* 滑块颜色 */
   border-radius: 50%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 添加阴影 */
   cursor: pointer;
@@ -238,14 +243,14 @@ export default {
 }
 
 .custom-slider::-webkit-slider-thumb:hover {
-  background: #ec4899; /* 鼠标悬停变色 */
+  background: #f85f73; /* 鼠标悬停变色 */
   transform: scale(1.2); /* 鼠标悬停放大 */
 }
 
 .custom-slider::-moz-range-thumb {
   width: 20px;
   height: 20px;
-  background: #f472b6;
+  background: rgb(87, 38, 63);
   border-radius: 50%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   cursor: pointer;
@@ -253,7 +258,7 @@ export default {
 }
 
 .custom-slider::-moz-range-thumb:hover {
-  background: #ec4899;
+  background: #f85f73;
   transform: scale(1.2);
 }
 
@@ -263,12 +268,12 @@ export default {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(255, 255, 255, 0.2); /* 背景遮罩 */
+  background: rgba(0, 0, 0, 0.2); /* 背景遮罩 */
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(10px); /* 背景模糊 */
+  backdrop-filter: blur(50px); /* 背景模糊 */
 }
 
 .box {
