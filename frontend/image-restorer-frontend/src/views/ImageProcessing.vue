@@ -43,12 +43,11 @@ export default {
       baseUrl: "https://img-api.jrhim.com/",
     };
   },
-  setup() {
-    console.log("ImageProcessing component loaded!");
-  },
-  created() {
-    console.log("ImageProcessing component created!");
-    this.dirtyImagePath = this.$route.query.uploadedFilePath;
+  mounted() {
+    // 从路由中获取传递的文件
+    // this.uploadedFile = localStorage.getItem("uploadedFile");
+    this.uploadedFile = this.dirtyImagePath = localStorage.getItem("uploadedFile");
+    console.log(this.uploadedFile); // 验证是否接收到
   },
   methods: {
     menu2Image(cleanImagePath) {
