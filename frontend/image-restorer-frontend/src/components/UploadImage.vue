@@ -1,40 +1,46 @@
 <template>
-  <div class="title">
-    <h1>
-      Image <br />
-      Restorer
-    </h1>
-  </div>
-  <div class="upload-btn-wrapper">
-    <!-- 上传按钮 -->
-    <button
-      v-if="!uploadComplete"
-      class="btn btn-lg btn-outline w-[360px] h-[80px] text-2xl font-bold shadow-md flex items-center justify-center space-x-2 transition-all duration-300"
-      :class="{
-        'hover-active': isHovered,
-        'hover:translate-x-[-25px]': isHovered,
-      }"
-      @mouseenter="handleMouseEnter"
-      @mouseleave="handleMouseLeave"
-      @click="triggerFileInput"
-    >
-      <UploadFilled class="icon-style" :class="{ 'icon-hover': isHovered }" />
-      <!-- 图标 -->
-      <span class="text-style" :class="{ 'text-hide': isHovered }"
-        >上传图片</span
-      >
-      <!-- 文字 -->
-    </button>
-    <!-- 隐藏的文件输入框 -->
-    <input
-      ref="fileInput"
-      type="file"
-      @change="handleFileUpload"
-      accept="image/*"
-      class="hidden"
-    />
-  </div>
+  <transition name="btn-fade">
+    <div>
+      <!-- 标题 -->
+      <div class="title">
+        <h1>
+          Image <br />
+          Restorer
+        </h1>
+      </div>
+      <div v-if="!uploadComplete" class="upload-wrapper">
+        <!-- 上传按钮区域 -->
+        <div class="upload-btn-wrapper">
+          <button
+              class="btn btn-lg btn-outline w-[360px] h-[80px] text-2xl font-bold shadow-md flex items-center justify-center space-x-2 transition-all duration-300"
+              :class="{
+              'hover-active': isHovered,
+              'hover:translate-x-[-25px]': isHovered,
+            }"
+              @mouseenter="handleMouseEnter"
+              @mouseleave="handleMouseLeave"
+              @click="triggerFileInput"
+          >
+            <UploadFilled class="icon-style" :class="{ 'icon-hover': isHovered }" />
+            <!-- 图标 -->
+            <span class="text-style" :class="{ 'text-hide': isHovered }">
+              上传图片
+            </span>
+          </button>
+          <!-- 隐藏的文件输入框 -->
+          <input
+              ref="fileInput"
+              type="file"
+              @change="handleFileUpload"
+              accept="image/*"
+              class="hidden"
+          />
+        </div>
+      </div>
+    </div>
+  </transition>
 </template>
+
 
 <script>
 import { UploadFilled } from "@element-plus/icons-vue"; // 引入图标
@@ -74,16 +80,30 @@ export default {
 </script>
 
 <style scoped>
+.upload-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  overflow: hidden;
+}
+
 .title {
   position: fixed;
+  top: -2%;
+  left: 1%;
   color: #283c63;
   z-index: 10;
 }
+
 .title h1 {
   font-size: 440px;
   font-weight: 900;
   color: #fbe8d3cd;
-  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   line-height: 1.2;
 }
 
@@ -91,21 +111,20 @@ export default {
   position: fixed;
   top: 50%;
   left: 10%;
-  /* transform: translateY(-50%); */
   z-index: 10;
 }
 
 .btn {
   display: flex;
-  align-items: center; /* 垂直居中 */
-  justify-content: center; /* 水平居中 */
+  align-items: center;
+  justify-content: center;
   background-color: #fbe8d3;
   border: none;
-  border-radius: 40px; /* 圆角按钮 */
+  border-radius: 40px;
   box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  overflow: hidden; /* 防止动画溢出 */
-  transition: all 0.3s ease; /* 整体动画效果 */
+  overflow: hidden;
+  transition: all 0.3s ease;
 }
 
 .btn:hover {
@@ -115,34 +134,59 @@ export default {
 .icon-style {
   width: 36px;
   height: 36px;
-  color: #283c63; /* 图标颜色 */
-  transition: all 0.3s ease; /* 动画过渡 */
+  color: #283c63;
+  transition: all 0.3s ease;
 }
 
 .icon-hover {
-  width: 72px; /* 鼠标悬停时图标放大 */
+  width: 72px;
   height: 72px;
   color: #ffffff;
 }
 
 .text-style {
-  font-size: 28px; /* 初始文字大小 */
-  line-height: 42px; /* 行高 */
+  font-size: 28px;
+  line-height: 42px;
   color: #283c63;
-  transition: all 0.3s ease; /* 动画过渡 */
+  transition: all 0.3s ease;
 }
 
 .text-hide {
-  font-size: 0px; /* 鼠标悬停时文字缩小消失 */
-  opacity: 0; /* 文字逐渐隐藏 */
+  font-size: 0px;
+  opacity: 0;
 }
 
 .hidden {
   display: none;
 }
 
-/* 鼠标悬停时按钮向左移动效果 */
 .hover-active {
-  transform: translateX(-25px); /* 按钮整体向左移动 */
+  transform: translateX(-25px);
+}
+
+/* 过渡动画类 */
+.btn-fade-enter-active,
+.btn-fade-leave-active {
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.btn-fade-enter {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.btn-fade-enter-to {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.btn-fade-leave {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.btn-fade-leave-to {
+  opacity: 0;
+  transform: scale(0.8);
 }
 </style>
