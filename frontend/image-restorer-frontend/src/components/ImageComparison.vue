@@ -11,21 +11,19 @@
     v-if="controlImage"
     @mousemove="checkMousePosition"
   >
-    <div
-      class="absolute inset-0 bg-gradient-to-t from-grey via-transparent to-transparent"
-    ></div>
 
-    <!-- 左边的未处理图片部分，通过 clip-path 进行遮罩 -->
     <div
       class="absolute w-full h-full"
-      :style="{ clipPath: `inset(0 0 0 ${leftWidth}%)` }"
+      :style="{ clipPath: `inset(-100px 0 -100px ${leftWidth}%)`}"
       draggable="false"
+
     >
       <img
         :src="dirtyImage"
         alt="Left Image"
         ref="leftImage"
         class="absolute inset-0 m-auto object-contain h-full rounded-xl shadow-[0_0_50px_20px_rgba(0,0,0,0.5)]"
+
         draggable="false"
       />
     </div>
@@ -40,9 +38,10 @@
 
     <!-- 右边的处理图片部分，通过 clip-path 进行遮罩 -->
     <div
-      class="absolute top-0 left-0 w-full h-full overflow-hidden"
-      :style="{ clipPath: `inset(0 ${100 - leftWidth}% 0 0)` }"
+      class="absolute top-0 left-0 w-full h-full "
+      :style="{ clipPath: `inset(-100px ${100 - leftWidth}% -100px 0)` }"
       draggable="false"
+
     >
       <img
         :src="cleanImage"
@@ -80,10 +79,7 @@
 
   <!--  原始图片部分-->
   <div id="original" class="absolute h-[80%] w-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" ref="container" v-else>
-    <div
-      class="absolute inset-0 bg-gradient-to-t from-grey via-transparent to-transparent"
-    ></div>
-    <!--    <div class="absolute inset-0 bg-grey bg-opacity-80"></div>-->
+
     <img
       :src="dirtyImage"
       alt="Left Image"
