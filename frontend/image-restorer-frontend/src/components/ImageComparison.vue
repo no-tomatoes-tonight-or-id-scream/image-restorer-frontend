@@ -88,7 +88,7 @@
       :src="dirtyImage"
       alt="Left Image"
       ref="leftImage"
-      class="absolute inset-0 m-auto object-contain h-[80%] rounded-xl shadow-[0_0_50px_20px_rgba(0,0,0,0.5)]"
+      class="absolute inset-0 m-auto object-contain h-full rounded-xl shadow-[0_0_50px_20px_rgba(0,0,0,0.5)]"
       draggable="false"
     />
   </div>
