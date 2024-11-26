@@ -5,6 +5,7 @@ import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
+import router from './router';
 
 // 引入 Tailwind CSS
 import './assets/tailwind.css'
@@ -21,4 +22,5 @@ const vuetify = createVuetify({
 // 创建 Vue 应用并使用 Vuetify 和 Tailwind CSS
 createApp(App)
     .use(vuetify)  // 使用 Vuetify 插件
+    .use(router)
     .mount('#app')

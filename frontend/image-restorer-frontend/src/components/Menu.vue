@@ -171,6 +171,9 @@ export default {
         })
         .catch((error) => {
           this.isLoading = false;
+          console.log("处理失败！");
+          this.$emit("menuDone");
+          console.log(this.isVisible);
           console.error("错误：", error);
         });
     },

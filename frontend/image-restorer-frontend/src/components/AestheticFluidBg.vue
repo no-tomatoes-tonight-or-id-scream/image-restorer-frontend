@@ -38,10 +38,10 @@ export default {
 
     window.addEventListener("resize", handleResize);
     onBeforeUnmount(() => {
-      this.$once("hook:beforeDestroy", () => {
-        window.removeEventListener("resize", handleResize);
-        colorbg.destroy();
-      });
+      window.removeEventListener("resize", handleResize); // 移除事件监听
+      if (colorbg) {
+        colorbg.destroy(); // 销毁背景资源
+      }
     });
   },
 };
