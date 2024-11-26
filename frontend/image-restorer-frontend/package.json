@@ -15,6 +15,7 @@
     "element-plus": "^2.8.8",
     "stackblur-canvas": "^2.7.0",
     "vue": "^3.5.12",
+    "vue-icon": "^2.3.0",
     "vue-router": "^4.5.0",
     "vuetify": "^3.7.4"
   },
