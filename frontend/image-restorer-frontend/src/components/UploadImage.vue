@@ -1,10 +1,4 @@
 <template>
-  <div class="title">
-    <h1>
-      Image <br />
-      Restorer
-    </h1>
-  </div>
   <div class="upload-btn-wrapper">
     <!-- 上传按钮 -->
     <button

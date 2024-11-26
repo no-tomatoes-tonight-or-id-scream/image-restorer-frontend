@@ -5,7 +5,7 @@
         <!-- 模型选择 -->
         <div class="menu-item">
           <label for="modelType" class="label">
-            <span class="label-text text-lg font-semibold">模型：</span>
+            <span class="label-text text-lg font-semibold text-white">模型：</span>
           </label>
           <select
             id="modelType"
@@ -21,7 +21,7 @@
         <!-- 放大倍数 -->
         <div class="menu-item">
           <label for="scale" class="label">
-            <span class="label-text text-lg font-semibold">放大倍数：</span>
+            <span class="label-text text-lg font-semibold text-white">放大倍数：</span>
           </label>
           <div class="flex items-center">
             <input
@@ -33,7 +33,7 @@
               step="0.1"
               class="range-primary custom-slider"
             />
-            <span class="ml-4 text-lg">{{ formData.scale.toFixed(1) }}</span>
+            <span class="ml-4 text-lg text-white">{{ formData.scale.toFixed(1) }}</span>
           </div>
         </div>
 
