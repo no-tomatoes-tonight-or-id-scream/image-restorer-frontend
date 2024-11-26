@@ -1,22 +1,22 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import Home from '@/views/Home.vue';
+import {createRouter, createWebHashHistory, createWebHistory} from "vue-router";
+import Home from "@/views/Home.vue";
 import ImageProcessing from "@/views/ImageProcessing.vue";
 
 const routes = [
     {
-        path: '/',
-        name: 'Home',
-        component: Home, // 首页
+        path: "/",
+        name: "Home",
+        component: ()=>import("@/views/Home.vue"),
     },
     {
-        path: '/process',
-        name: 'ImageProcessing',
-        component: ImageProcessing, // 图片处理页
+        path: "/processing",
+        name: "ImageProcessing",
+        component: ()=>import("@/views/ImageProcessing.vue"),
     },
 ];
 
 const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHashHistory(),
     routes,
 });
 
