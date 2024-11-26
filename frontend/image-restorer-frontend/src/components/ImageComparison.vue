@@ -6,7 +6,7 @@
 <template>
   <!--  对比图片部分-->
   <div
-    class="absolute h-full w-full"
+    class="absolute h-[80%] w-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
     ref="container"
     v-if="controlImage"
     @mousemove="checkMousePosition"
@@ -25,7 +25,7 @@
         :src="dirtyImage"
         alt="Left Image"
         ref="leftImage"
-        class="absolute inset-0 m-auto object-contain h-[80%] rounded-xl shadow-[0_0_50px_20px_rgba(0,0,0,0.5)]"
+        class="absolute inset-0 m-auto object-contain h-full rounded-xl shadow-[0_0_50px_20px_rgba(0,0,0,0.5)]"
         draggable="false"
       />
     </div>
@@ -48,7 +48,7 @@
         :src="cleanImage"
         alt="Right Image"
         ref="rightImage"
-        class="absolute inset-0 m-auto object-contain h-[80%] rounded-xl shadow-[0_0_50px_20px_rgba(0,0,0,0.5)]"
+        class="absolute inset-0 m-auto object-contain h-full rounded-xl shadow-[0_0_50px_20px_rgba(0,0,0,0.5)]"
         draggable="false"
       />
     </div>
@@ -79,7 +79,7 @@
   </div>
 
   <!--  原始图片部分-->
-  <div id="original" class="absolute h-full w-full" ref="container" v-else>
+  <div id="original" class="absolute h-[80%] w-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" ref="container" v-else>
     <div
       class="absolute inset-0 bg-gradient-to-t from-grey via-transparent to-transparent"
     ></div>
@@ -88,7 +88,7 @@
       :src="dirtyImage"
       alt="Left Image"
       ref="leftImage"
-      class="absolute inset-0 m-auto object-contain h-[80%] rounded-xl shadow-[0_0_50px_20px_rgba(0,0,0,0.5)]"
+      class="absolute inset-0 m-auto object-contain h-full rounded-xl shadow-[0_0_50px_20px_rgba(0,0,0,0.5)]"
       draggable="false"
     />
   </div>

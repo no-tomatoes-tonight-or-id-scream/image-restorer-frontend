@@ -122,7 +122,7 @@
 
 
 <template>
-  <div id="app" class="absolute w-full h-full z-0">
+  <div id="app" class="absolute w-screen h-screen z-0">
     <router-view />
   </div>
 </template>
