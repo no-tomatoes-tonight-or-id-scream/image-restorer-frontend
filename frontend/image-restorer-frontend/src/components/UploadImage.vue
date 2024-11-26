@@ -2,9 +2,10 @@
   <transition name="btn-fade">
     <div>
       <!-- 标题 -->
-      <div class="fixed top-[-2%] left-[11%] text-[#283c63] z-10">
+      <div class="fixed top-[22%] left-[11%] z-10">
         <h1
-            class="text-[10vw] font-black text-[rgba(251,232,211,1)] font-mono leading-tight antialiased italic ">
+          class="text-[5vw] font-black text-[rgba(251,232,211,1)] font-mono leading-[0.87] antialiased italic"
+        >
           Image <br />
           Restorer
         </h1>
@@ -14,16 +15,19 @@
         <!-- 上传按钮区域 -->
         <div class="upload-btn-wrapper">
           <button
-              class="btn btn-lg btn-outline w-[360px] h-[80px] text-2xl font-bold shadow-md flex items-center justify-center space-x-2 transition-all duration-300"
-              :class="{
+            class="btn btn-lg btn-outline w-[360px] h-[80px] text-2xl font-bold shadow-md flex items-center justify-center space-x-2 transition-all duration-300"
+            :class="{
               'hover-active': isHovered,
               'hover:translate-x-[-25px]': isHovered,
             }"
-              @mouseenter="handleMouseEnter"
-              @mouseleave="handleMouseLeave"
-              @click="triggerFileInput"
+            @mouseenter="handleMouseEnter"
+            @mouseleave="handleMouseLeave"
+            @click="triggerFileInput"
           >
-            <UploadFilled class="icon-style" :class="{ 'icon-hover': isHovered }" />
+            <UploadFilled
+              class="icon-style"
+              :class="{ 'icon-hover': isHovered }"
+            />
             <!-- 图标 -->
             <span class="text-style" :class="{ 'text-hide': isHovered }">
               上传图片
@@ -31,18 +35,17 @@
           </button>
           <!-- 隐藏的文件输入框 -->
           <input
-              ref="fileInput"
-              type="file"
-              @change="handleFileUpload"
-              accept="image/*"
-              class="hidden"
+            ref="fileInput"
+            type="file"
+            @change="handleFileUpload"
+            accept="image/*"
+            class="hidden"
           />
         </div>
       </div>
     </div>
   </transition>
 </template>
-
 
 <script>
 import { UploadFilled } from "@element-plus/icons-vue"; // 引入图标
@@ -93,11 +96,9 @@ export default {
   overflow: hidden;
 }
 
-
-
 .upload-btn-wrapper {
   position: fixed;
-  top: 50%;
+  top: 58%;
   left: 10%;
   z-index: 10;
 }
