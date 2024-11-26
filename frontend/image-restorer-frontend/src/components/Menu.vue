@@ -151,7 +151,7 @@ export default {
         });
     },
 
-    handleSubmit() {
+    async handleSubmit() {
       this.isLoading = true; // 开始加载
       const params = {
         target_scale: this.formData.scale,
@@ -159,7 +159,8 @@ export default {
       };
       const queryString = new URLSearchParams(params).toString();
       const postData = new FormData();
-      postData.append("image", this.uploadedFile);
+      const file = await this.convertUrlToFile(this.uploadedFile, "uploaded_image.jpg");
+      postData.append("image", file);
 
       const targetUrl = `${this.baseUrl}process?${queryString}`;
       axios
@@ -194,6 +195,12 @@ export default {
           console.error("请求模型列表出错！出错信息：", error);
         });
     },
+    //将url重构为文件
+    async convertUrlToFile(url, fileName) {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      return new File([blob], fileName, { type: blob.type });
+    }
   },
 };
 </script>

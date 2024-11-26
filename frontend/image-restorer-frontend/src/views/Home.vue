@@ -27,9 +27,9 @@ export default {
   },
   methods: {
     navigateToProcessing(file) {
+      localStorage.setItem("uploadedFile",URL.createObjectURL(file));
       this.$router.push({
         name: "ImageProcessing",
-        query: { uploadedFilePath: URL.createObjectURL(file) },
       });
       this.showButton = false; // 隐藏按钮触发过渡效果
     },
