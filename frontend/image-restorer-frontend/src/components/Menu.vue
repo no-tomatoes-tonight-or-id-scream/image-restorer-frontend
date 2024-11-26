@@ -199,7 +199,7 @@ export default {
 .menu-wrapper {
   position: fixed;
   top: 20%;
-  left: 2%;
+  left: 10%;
   max-width: 400px;
   width: 30vw;
   padding: 30px;
