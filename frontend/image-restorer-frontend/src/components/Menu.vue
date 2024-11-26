@@ -112,24 +112,25 @@ export default {
               this.$emit("menuDone");
             }, 1500);
           } else if (status === "error") {
-            this.isLoading = false;
-            this.$emit("menuDone");
-            console.error("任务发生错误！");
-          } else {
-            this.checkCnt++;
-            if (this.checkCnt >= 60) {
-              this.getResultImg(task_id);
               this.isLoading = false;
               this.$emit("menuDone");
-              this.checkCnt = 0;
-            } else {
-              setTimeout(() => this.checkTaskStatus(task_id), 2000);
-            }
+              console.error("任务发生错误！");
+          } else {
+              this.checkCnt++;
+              if (this.checkCnt >= 60) {
+                this.getResultImg(task_id);
+                this.isLoading = false;
+                this.$emit("menuDone");
+                this.checkCnt = 0;
+              } else {
+                setTimeout(() => this.checkTaskStatus(task_id), 2000);
+              }
           }
         })
         .catch((error) => {
           this.isLoading = false;
           console.error("查询任务状态失败：", error);
+          this.$emit("menuDone");
         });
     },
 

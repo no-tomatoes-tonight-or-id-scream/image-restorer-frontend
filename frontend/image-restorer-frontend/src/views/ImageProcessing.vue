@@ -1,5 +1,6 @@
 <template>
   <div class="absolute w-full h-full z-0">
+
     <AestheticFluidBg />
     <!-- 背景动效 -->
     <div class="absolute right-0 w-2/3 h-full z-10 m-4" draggable="false">
@@ -8,6 +9,7 @@
           :cleanImage="cleanImagePath"
       />
     </div>
+
     <div id="process">
       <transition name="menu-fade">
         <Menu
@@ -15,9 +17,21 @@
             :uploadedFile="uploadedFile"
             :baseUrl="baseUrl"
             @pics-upload="menu2Image"
-            @menu-done="showMenu = false"
+            @menuDone="menuDone"
         />
       </transition>
+    </div>
+
+    <!-- 返回上传按钮 -->
+    <div class="absolute top-4 left-4 z-20">
+      <backToUpload :canBack="showBackAndDownload" />
+    </div>
+
+    <div class="absolute top-20 left-4 z-20">
+      <DownloadButton
+          :canDownload="showBackAndDownload"
+          @DownloadRequest="DownloadTheResult"
+      />
     </div>
   </div>
 </template>
@@ -27,13 +41,17 @@
 import AestheticFluidBg from "@/components/AestheticFluidBg.vue";
 import ImageComparison from "@/components/ImageComparison.vue";
 import Menu from "@/components/Menu.vue";
+import backToUpload from "@/components/backToUpload.vue";
+import DownloadButton from "@/components/DownLoadButton.vue";
 
 export default {
   name: "ImageProcessing",
   components: {
+    DownloadButton,
     AestheticFluidBg,
     ImageComparison,
     Menu,
+    backToUpload,
   },
   data() {
     return {
@@ -42,6 +60,7 @@ export default {
       dirtyImagePath: null,
       cleanImagePath: null, // 处理后的图片地址
       baseUrl: "https://img-api.jrhim.com/",
+      showBackAndDownload: false,
     };
   },
   mounted() {
@@ -53,6 +72,21 @@ export default {
   methods: {
     menu2Image(cleanImagePath) {
       this.cleanImagePath = cleanImagePath;
+    },
+    menuDone() {
+      //this.showMenu = false;
+      //this.showBack = true;
+      this.showBackAndDownload = true;
+      //console.log("showBack 设置为:", this.showBack);
+      console.log("showMenu", this.showMenu);
+    },
+    DownloadTheResult() {
+      console.log("下载处理后的图片");
+      const link = document.createElement("a");
+      link.href = this.cleanImagePath;
+      link.download = "cleanImage.png";
+      link.click();
+
     },
   },
 };
