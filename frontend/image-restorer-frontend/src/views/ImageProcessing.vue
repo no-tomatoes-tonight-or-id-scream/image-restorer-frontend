@@ -10,7 +10,7 @@
       />
     </div>
 
-    <div id="process">
+    <div id="process" class="absolute top-[20%] left-[7%] w-1/3 z-10 m-4">
       <transition name="menu-fade">
         <Menu
             :isVisible="showMenu"

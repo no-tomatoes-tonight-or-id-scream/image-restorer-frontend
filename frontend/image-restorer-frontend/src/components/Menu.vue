@@ -207,8 +207,9 @@ export default {
 </script>
 
 <style scoped>
+
 .menu-wrapper {
-  position: fixed;
+
   top: 20%;
   left: 10%;
   max-width: 400px;
