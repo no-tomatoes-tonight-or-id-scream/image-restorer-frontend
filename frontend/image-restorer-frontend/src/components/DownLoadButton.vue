@@ -40,11 +40,12 @@ export default {
   background-color: #fbe8d3;
   border: none;
   border-radius: 40px;
-  padding: 10px 20px;
+  padding: 10px 15px;
   box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   overflow: hidden;
   transition: all 0.3s ease;
+  width: 10vw;
 }
 
 .btn:hover {
