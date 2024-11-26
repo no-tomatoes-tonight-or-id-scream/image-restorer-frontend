@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="isVisible" class="menu-wrapper">
+    <div v-if="isVisible" class="menu-wrapper rounded-xl">
       <form @submit.prevent="handleSubmit">
         <!-- 模型选择 -->
         <div class="menu-item">
@@ -37,7 +37,7 @@
           </div>
         </div>
 
-        <button type="submit" class="btn btn-success w-full text-lg">
+        <button type="submit" class="btn w-full text-lg">
           提交
         </button>
       </form>
@@ -196,7 +196,7 @@ export default {
           console.error("请求模型列表出错！出错信息：", error);
         });
     },
-    //将url重构为文件
+    //将 url 重构为文件
     async convertUrlToFile(url, fileName) {
       const response = await fetch(url);
       const blob = await response.blob();
@@ -216,7 +216,6 @@ export default {
   width: 30vw;
   padding: 30px;
   background: #131a268e; /* 半透明背景 */
-  border-radius: 12px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* 柔和阴影 */
   z-index: 50;
   backdrop-filter: blur(50px); /* 背景模糊 */
@@ -226,9 +225,14 @@ export default {
   margin-bottom: 20px;
 }
 
-.btn-success {
+.btn {
   background: #fbe8d3; /* 绿色按钮 */
   color: #283c63; /* 白色文字 */
+}
+
+.btn:hover {
+  background: #283c63; /* 鼠标悬停变色 */
+  color: #ffffff; /* 鼠标悬停变色 */
 }
 
 .custom-slider {
