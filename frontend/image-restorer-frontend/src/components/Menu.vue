@@ -80,7 +80,7 @@ export default {
       required: true,
     },
   },
-  emits: ["pics-upload"],
+  emits: ["pics-upload", "menuDone"],
   data() {
     return {
       formData: {
@@ -108,15 +108,19 @@ export default {
             this.getResultImg(task_id);
             setTimeout(() => {
               this.isLoading = false; // 加载完成后隐藏
+              //this.isVisible = false; // 隐藏菜单
+              this.$emit("menuDone");
             }, 1500);
           } else if (status === "error") {
             this.isLoading = false;
+            this.$emit("menuDone");
             console.error("任务发生错误！");
           } else {
             this.checkCnt++;
             if (this.checkCnt >= 60) {
               this.getResultImg(task_id);
-                this.isLoading = false;
+              this.isLoading = false;
+              this.$emit("menuDone");
               this.checkCnt = 0;
             } else {
               setTimeout(() => this.checkTaskStatus(task_id), 2000);

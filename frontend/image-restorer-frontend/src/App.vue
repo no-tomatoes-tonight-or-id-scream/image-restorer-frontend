@@ -26,6 +26,7 @@
           :isVisible="showMenu"
           :uploadedFile="uploadedFile"
           :baseUrl="baseUrl"
+          @menuDone="handleMenuDone"
           @pics-upload="menu2Image"
         />
       </transition>
@@ -75,6 +76,11 @@ export default {
     },
     menu2Image(cleanImagePath) {
       this.cleanImagePath = cleanImagePath;
+    },
+    handleMenuDone() {
+      // 子组件任务完成后执行的逻辑
+      console.log("Menu任务完成");
+      this.showMenu = false; // 隐藏菜单
     },
   },
 };
