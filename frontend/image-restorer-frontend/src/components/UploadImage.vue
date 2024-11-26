@@ -2,12 +2,14 @@
   <transition name="btn-fade">
     <div>
       <!-- 标题 -->
-      <div class="title">
-        <h1>
+      <div class="fixed top-[-2%] left-[11%] text-[#283c63] z-10">
+        <h1
+            class="text-[10vw] font-black text-[rgba(251,232,211,1)] font-mono leading-tight antialiased italic ">
           Image <br />
           Restorer
         </h1>
       </div>
+
       <div v-if="!uploadComplete" class="upload-wrapper">
         <!-- 上传按钮区域 -->
         <div class="upload-btn-wrapper">
@@ -91,21 +93,7 @@ export default {
   overflow: hidden;
 }
 
-.title {
-  position: fixed;
-  top: -2%;
-  left: 1%;
-  color: #283c63;
-  z-index: 10;
-}
 
-.title h1 {
-  font-size: 440px;
-  font-weight: 900;
-  color: #fbe8d3cd;
-  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
-  line-height: 1.2;
-}
 
 .upload-btn-wrapper {
   position: fixed;
