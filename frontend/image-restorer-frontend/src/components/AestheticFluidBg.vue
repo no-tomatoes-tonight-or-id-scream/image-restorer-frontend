@@ -1,8 +1,8 @@
 <template>
-  <div class="fixed w-screen h-screen">
+  <div class="absolute w-full h-full">
     <div
       id="box"
-      class="absolute items-center justify-center w-screen h-screen bg-gray-100 overflow-hidden"
+      class="absolute w-full h-full bg-gray-100"
     ></div>
   </div>
 </template>

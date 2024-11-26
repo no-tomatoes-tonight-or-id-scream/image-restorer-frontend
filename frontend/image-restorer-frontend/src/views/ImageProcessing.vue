@@ -1,8 +1,8 @@
 <template>
-  <div class="absolute w-full h-full z-0">
+  <div class="absolute w-screen h-screen z-0 overflow-hidden ">
     <AestheticFluidBg />
     <!-- 背景动效 -->
-    <div class="absolute right-0 w-2/3 h-full z-10 m-4" draggable="false">
+    <div class="absolute right-0 w-2/3 h-full z-10 m-4 " draggable="false">
       <ImageComparison
           :dirtyImage="dirtyImagePath"
           :cleanImage="cleanImagePath"
