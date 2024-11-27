@@ -80,7 +80,7 @@
       :style="overlayStyle"
       class="fixed backdrop-blur-xl rounded-xl flex items-center justify-center"
       ref="overlay"
-      v-if="isLoading"
+      v-if="loading"
   >
     <!-- 加入加载中的内容 -->
     <div  class="loading-overlay" v-cloak>
@@ -147,6 +147,7 @@ export default {
       controlTextRight: false, //控制脏图片状态标签
       leftBound: null,
       rightBound: null,
+      loading: false,
       overlayStyle: {},
     };
   },
@@ -154,10 +155,10 @@ export default {
     // 监听 externalProp 的变化
     cleanImage(newVal, oldVal) {
       this.controlImage = true;
-      this.isLoading = false;
+      this.loading = false;
     },
     isLoading(newVal, oldVal) {
-      console.log("获得通信：",newVal);
+      this.loading=true;
     }
   },
   mounted() {
