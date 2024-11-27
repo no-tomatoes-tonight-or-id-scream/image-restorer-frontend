@@ -1,4 +1,2 @@
-package-lock.json
-frontend/image-restorer-frontend/node_modules
-frontend/image-restorer-frontend/dist
-frontend/image-restorer-frontend/node_modules/.bin
+dist/node_modules
+node_modules

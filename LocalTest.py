@@ -1,7 +1,7 @@
-# 用于进行本地接口测试 有flask依赖
-# 在本地的良Python环境下，可以自行创建文件uploads与results文件夹
-# 并在results放置123.png后进行运行测试
-# 注意服务器本地地址，以此调整前端接口url
+# 用于进行本地接口测试 有 flask 依赖
+# 在本地的良 Python 环境下，可以自行创建文件 uploads 与 results 文件夹
+# 并在 results 放置 123.png 后进行运行测试
+# 注意服务器本地地址，以此调整前端接口 url
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 import os
