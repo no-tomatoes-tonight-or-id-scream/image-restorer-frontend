@@ -4,14 +4,13 @@
 当收到处理好的图片后进入对比部分的容器-->
 
 <template>
-  <!--  对比图片部分-->
+
   <div
     class="absolute h-[80%] w-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
     ref="container"
     v-if="controlImage"
     @mousemove="checkMousePosition"
   >
-
     <div
       class="absolute w-full h-full"
       :style="{ clipPath: `inset(-100px 0 -100px ${leftWidth}%)`}"
@@ -77,8 +76,33 @@
     </div>
   </div>
 
+  <div
+      :style="overlayStyle"
+      class="fixed backdrop-blur-xl rounded-xl flex items-center justify-center"
+      ref="overlay"
+      v-if="isLoading"
+  >
+    <!-- 加入加载中的内容 -->
+    <div  class="loading-overlay" v-cloak>
+      <div id="original">
+
+          <div class="box">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <p class="text-white text-xl mt-4">处理中，请稍候...</p>
+        </div>
+
+    </div>、
+  </div>
+
+
+
   <!--  原始图片部分-->
-  <div id="original" class="absolute h-[80%] w-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" ref="container" v-else>
+  <div id="original" class="absolute h-[80%] w-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" ref="container" v-if="!controlImage">
 
     <img
       :src="dirtyImage"
@@ -86,7 +110,11 @@
       ref="leftImage"
       class="absolute inset-0 m-auto object-contain h-full rounded-xl shadow-[0_0_50px_20px_rgba(0,0,0,0.5)]"
       draggable="false"
+      @load="updateOverlay"
     />
+
+
+
   </div>
   <!--            style="clip-path: inset(0 10% 0 10%);"-->
   <!--            :style="{ transform: 'translateX(24%)' }"-->
@@ -103,6 +131,11 @@ export default {
       type: [String, null],
       required: true,
     },
+    isLoading:{
+      type: Boolean,
+      default: false,
+      required: false,
+    }
   },
   data() {
     return {
@@ -114,20 +147,25 @@ export default {
       controlTextRight: false, //控制脏图片状态标签
       leftBound: null,
       rightBound: null,
+      overlayStyle: {},
     };
   },
   watch: {
     // 监听 externalProp 的变化
     cleanImage(newVal, oldVal) {
-      // console.log("图片 base",newVal);
       this.controlImage = true;
+      this.isLoading = false;
     },
+    isLoading(newVal, oldVal) {
+      console.log("获得通信：",newVal);
+    }
   },
   mounted() {
     // 获取容器的边界信息
 
     this.updateContainerBounds();
     // 监听窗口大小变化，更新边界信息
+    window.addEventListener("resize", this.updateOverlay);
     window.addEventListener("resize", this.updateContainerBounds);
   },
   beforeDestroy() {
@@ -209,7 +247,25 @@ export default {
         this.$refs.container.removeEventListener("wheel", this.onWheel);
       }
     },
+    updateOverlay() {
+      const imageContainer = this.$refs.leftImage;
+
+      if (imageContainer) {
+        const rect = imageContainer.getBoundingClientRect();
+
+        this.overlayStyle = {
+          width: `${rect.width}px`,
+          height: `${rect.height}px`,
+          top: `${rect.top + rect.height / 2}px`,
+          left: `${rect.left + rect.width / 2}px`,
+          transform: "translate(-50%, -50%)", // 让覆盖层中心点对齐
+          zIndex: 50,
+        };
+
+      }
+    },
   },
+
 };
 </script>
 
@@ -228,4 +284,74 @@ img:hover {
 img {
   transition: transform 0.5s, filter 0.5s; /* 过渡效果 */
 }
+
+
+.loading-overlay {
+  position: absolute; /* 确保覆盖容器的范围适配 */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2); /* 背景遮罩 */
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px); /* 背景模糊效果 */
+  border-radius: inherit; /* 确保和父容器一致的圆角 */
+  overflow: hidden; /* 限制内容不超出容器 */
+}
+
+
+.box {
+  position: relative;
+  width: 80px; /* 调整宽度以适配动态布局 */
+  height: 20px;
+  margin: 0 auto;
+  display: flex; /* 使用 flex 布局让子元素更自然排列 */
+  justify-content: space-between;
+}
+
+.box span {
+  width: 15px;
+  height: 15px;
+  background: #3498db;
+  opacity: 0.5;
+  border-radius: 50%;
+  animation: anim 1s infinite ease-in-out;
+}
+
+/* 动态控制子元素动画延迟 */
+.box span:nth-child(1) {
+  animation-delay: 0s;
+}
+.box span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.box span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+.box span:nth-child(4) {
+  animation-delay: 0.6s;
+}
+.box span:nth-child(5) {
+  animation-delay: 0.8s;
+}
+
+@keyframes anim {
+  0% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-10px);
+    background: #f9cdff; /* 动态颜色变化 */
+  }
+  100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+}
+
 </style>

@@ -6,6 +6,7 @@
       <ImageComparison
           :dirtyImage="dirtyImagePath"
           :cleanImage="cleanImagePath"
+          :isLoading="isLoading"
       />
     </div>
 
@@ -17,6 +18,7 @@
             :baseUrl="baseUrl"
             @pics-upload="menu2Image"
             @menuDone="menuDone"
+            @isLoading="sendIsLoading"
         />
       </transition>
     </div>
@@ -63,6 +65,7 @@ export default {
       cleanImagePath: null, // 处理后的图片地址
       baseUrl: "https://img-api.jrhim.com/",
       showBackAndDownload: false,
+      isLoading: false,
     };
   },
   mounted() {
@@ -93,6 +96,9 @@ export default {
       link.click();
 
     },
+    sendIsLoading() {
+      this.isLoading = true;
+    }
 },
 };
 </script>

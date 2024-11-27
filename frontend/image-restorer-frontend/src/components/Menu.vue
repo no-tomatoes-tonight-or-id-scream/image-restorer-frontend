@@ -42,22 +42,6 @@
         </button>
       </form>
     </div>
-
-    <!-- 加载界面 -->
-    <div v-if="isLoading" class="loading-overlay" v-cloak>
-      <div id="original">
-        <div class="flex flex-col items-center justify-center h-screen">
-          <div class="box">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-          <p class="text-white text-xl mt-4">处理中，请稍候...</p>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -80,7 +64,7 @@ export default {
       required: true,
     },
   },
-  emits: ["pics-upload", "menuDone"],
+  emits: ["pics-upload", "menuDone","isLoading"],
   data() {
     return {
       formData: {
@@ -89,7 +73,6 @@ export default {
       },
       modelList: {}, // 初始化为空对象，确保 v-for 能正常运行
       checkCnt: 0,
-      isLoading: false, // 加载状态
     };
   },
   mounted() {
@@ -153,7 +136,9 @@ export default {
     },
 
     async handleSubmit() {
-      this.isLoading = true; // 开始加载
+      this.$emit("isLoading");
+
+
       const params = {
         target_scale: this.formData.scale,
         pretrained_model_name: this.formData.modelType,
@@ -282,70 +267,4 @@ export default {
   transform: scale(1.2);
 }
 
-.loading-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.2); /* 背景遮罩 */
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(50px); /* 背景模糊 */
-}
-
-.box {
-  position: relative;
-  width: 100px;
-  height: 50px;
-  margin: 0 auto;
-}
-
-.box span {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  background: #3498db;
-  opacity: 0.5;
-  border-radius: 100%;
-  animation: anim 1s infinite ease-in-out;
-}
-
-.box > :nth-child(2) {
-  left: 20px;
-  animation-delay: 0.2s;
-}
-
-.box > :nth-child(3) {
-  left: 40px;
-  animation-delay: 0.4s;
-}
-
-.box > :nth-child(4) {
-  left: 60px;
-  animation-delay: 0.6s;
-}
-
-.box > :nth-child(5) {
-  left: 80px;
-  animation-delay: 0.8s;
-}
-
-@keyframes anim {
-  0% {
-    opacity: 0.3;
-    transform: translateY(0px);
-  }
-  50% {
-    opacity: 1;
-    transform: translateY(-10px);
-    background: #f9cdff;
-  }
-  100% {
-    opacity: 0.3;
-    transform: translateY(0px);
-  }
-}
 </style>
