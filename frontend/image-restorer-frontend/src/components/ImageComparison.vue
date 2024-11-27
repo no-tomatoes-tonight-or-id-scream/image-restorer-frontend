@@ -5,96 +5,55 @@
 
 <template>
 
-  <div
-    class="absolute h-[80%] w-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-    ref="container"
-    v-if="controlImage"
-    @mousemove="checkMousePosition"
-  >
-    <div
-      class="absolute w-full h-full"
-      :style="{ clipPath: `inset(-100px 0 -100px ${leftWidth}%)`}"
-      draggable="false"
-
-    >
-      <img
-        :src="dirtyImage"
-        alt="Left Image"
-        ref="leftImage"
+  <div class="absolute h-[80%] w-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" ref="container"
+    v-if="controlImage" @mousemove="checkMousePosition">
+    <div class="absolute w-full h-full" :style="{ clipPath: `inset(-100px 0 -100px ${leftWidth}%)` }" draggable="false">
+      <img :src="dirtyImage" alt="Left Image" ref="leftImage"
         class="absolute inset-0 m-auto object-contain h-full rounded-xl shadow-[0_0_50px_20px_rgba(0,0,0,0.5)]"
-
-        draggable="false"
-      />
+        draggable="false" />
     </div>
 
-    <button
-      class="absolute rounded-lg bottom-0 text-xs opacity-80 bg-gray-600"
-      :style="{ left: leftBound + '%' }"
-      v-if="controlTextLeft"
-    >
+    <button class="absolute rounded-lg bottom-0 text-xs opacity-80 bg-gray-600" :style="{ left: leftBound + '%' }"
+      v-if="controlTextLeft">
       Original
     </button>
 
     <!-- 右边的处理图片部分，通过 clip-path 进行遮罩 -->
-    <div
-      class="absolute top-0 left-0 w-full h-full "
-      :style="{ clipPath: `inset(-100px ${100 - leftWidth}% -100px 0)` }"
-      draggable="false"
-
-    >
-      <img
-        :src="cleanImage"
-        alt="Right Image"
-        ref="rightImage"
+    <div class="absolute top-0 left-0 w-full h-full "
+      :style="{ clipPath: `inset(-100px ${100 - leftWidth}% -100px 0)` }" draggable="false">
+      <img :src="cleanImage" alt="Right Image" ref="rightImage"
         class="absolute inset-0 m-auto object-contain h-full rounded-xl shadow-[0_0_50px_20px_rgba(0,0,0,0.5)]"
-        draggable="false"
-      />
+        draggable="false" />
     </div>
-    <button
-      class="absolute rounded-lg bottom-0 text-xs opacity-80 bg-gray-600"
-      :style="{ right: leftBound + '%' }"
-      v-if="controlTextRight"
-    >
+    <button class="absolute rounded-lg bottom-0 text-xs opacity-80 bg-gray-600" :style="{ right: leftBound + '%' }"
+      v-if="controlTextRight">
       Processed
     </button>
     <!-- 滑动按钮 -->
-    <div
-      class="absolute top-0 bottom-0 w-[3px] bg-white cursor-ew-resize z-10"
-      :style="{ left: leftWidth + '%' }"
-      @mousedown.prevent="startDragging"
-    >
+    <div class="absolute top-0 bottom-0 w-[3px] bg-white cursor-ew-resize z-10" :style="{ left: leftWidth + '%' }"
+      @mousedown.prevent="startDragging">
       <span
-        class="absolute top-1/2 -left-2.5 w-5 h-5 rounded-full transform -translate-y-1/2 flex items-center justify-center"
-      >
-        <img
-          src="/svgs/左右箭头.svg"
-          alt="icon"
-          class="icon-img w-full h-full"
-          draggable="false"
-        />
+        class="absolute top-1/2 -left-2.5 w-5 h-5 rounded-full transform -translate-y-1/2 flex items-center justify-center">
+        <img src="/svgs/左右箭头.svg" alt="icon" class="icon-img w-full h-full" draggable="false" />
       </span>
     </div>
   </div>
 
-  <div
-      :style="overlayStyle"
-      class="fixed backdrop-blur-xl rounded-xl flex items-center justify-center"
-      ref="overlay"
-      v-if="loading"
-  >
+  <div :style="overlayStyle" class="fixed backdrop-blur-xl rounded-xl flex items-center justify-center" ref="overlay"
+    v-if="loading">
     <!-- 加入加载中的内容 -->
-    <div  class="loading-overlay" v-cloak>
+    <div class="loading-overlay" v-cloak>
       <div id="original">
 
-          <div class="box">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-          <p class="text-white text-xl mt-4">处理中，请稍候...</p>
+        <div class="box">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
+        <p class="text-white text-xl mt-4">处理中，请稍候...</p>
+      </div>
 
     </div>、
   </div>
@@ -102,16 +61,12 @@
 
 
   <!--  原始图片部分-->
-  <div id="original" class="absolute h-[80%] w-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" ref="container" v-if="!controlImage">
+  <div id="original" class="absolute h-[80%] w-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+    ref="container" v-if="!controlImage">
 
-    <img
-      :src="dirtyImage"
-      alt="Left Image"
-      ref="leftImage"
+    <img :src="dirtyImage" alt="Left Image" ref="leftImage"
       class="absolute inset-0 m-auto object-contain h-full rounded-xl shadow-[0_0_50px_20px_rgba(0,0,0,0.5)]"
-      draggable="false"
-      @load="updateOverlay"
-    />
+      draggable="false" @load="updateOverlay" />
 
 
 
@@ -131,7 +86,7 @@ export default {
       type: [String, null],
       required: true,
     },
-    isLoading:{
+    isLoading: {
       type: Boolean,
       default: false,
       required: false,
@@ -158,7 +113,7 @@ export default {
       this.loading = false;
     },
     isLoading(newVal, oldVal) {
-      this.loading=true;
+      this.loading = true;
     }
   },
   mounted() {
@@ -277,39 +232,53 @@ export default {
 }
 
 img:hover {
-  transform: scale(1.01) rotate(1deg); /* 放大并旋转 */
-  filter: brightness(1.1); /* 提高亮度 */
-  transition-duration: 500ms; /* 过渡时间 */
+  transform: scale(1.01) rotate(1deg);
+  /* 放大并旋转 */
+  filter: brightness(1.1);
+  /* 提高亮度 */
+  transition-duration: 500ms;
+  /* 过渡时间 */
 }
 
 img {
-  transition: transform 0.5s, filter 0.5s; /* 过渡效果 */
+  transition: all 0.5s ease-in-out;
+  /* 平滑过渡效果 */
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
 
 .loading-overlay {
-  position: absolute; /* 确保覆盖容器的范围适配 */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.2); /* 背景遮罩 */
+  position: absolute;
+  width: 100.1%;
+  height: 100.1%;
+  background: rgba(0, 0, 0, 0.2);
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(10px); /* 背景模糊效果 */
-  border-radius: inherit; /* 确保和父容器一致的圆角 */
-  overflow: hidden; /* 限制内容不超出容器 */
+  backdrop-filter: blur(10px);
+  border-radius: inherit;
+  overflow: hidden;
+  /* 边缘羽化效果 */
+  animation: fadeIn 0.3s ease-in-out forwards;
 }
-
 
 .box {
   position: relative;
-  width: 80px; /* 调整宽度以适配动态布局 */
+  width: 80px;
+  /* 调整宽度以适配动态布局 */
   height: 20px;
   margin: 0 auto;
-  display: flex; /* 使用 flex 布局让子元素更自然排列 */
+  display: flex;
+  /* 使用 flex 布局让子元素更自然排列 */
   justify-content: space-between;
 }
 
@@ -326,15 +295,19 @@ img {
 .box span:nth-child(1) {
   animation-delay: 0s;
 }
+
 .box span:nth-child(2) {
   animation-delay: 0.2s;
 }
+
 .box span:nth-child(3) {
   animation-delay: 0.4s;
 }
+
 .box span:nth-child(4) {
   animation-delay: 0.6s;
 }
+
 .box span:nth-child(5) {
   animation-delay: 0.8s;
 }
@@ -344,15 +317,17 @@ img {
     opacity: 0.3;
     transform: translateY(0);
   }
+
   50% {
     opacity: 1;
     transform: translateY(-10px);
-    background: #f9cdff; /* 动态颜色变化 */
+    background: #f9cdff;
+    /* 动态颜色变化 */
   }
+
   100% {
     opacity: 0.3;
     transform: translateY(0);
   }
 }
-
 </style>
