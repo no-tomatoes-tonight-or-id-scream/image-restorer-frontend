@@ -7,11 +7,7 @@
           <label for="modelType" class="label">
             <span class="label-text text-lg font-semibold text-white">模型：</span>
           </label>
-          <select
-            id="modelType"
-            v-model="formData.modelType"
-            class="select select-bordered w-full"
-          >
+          <select id="modelType" v-model="formData.modelType" class="select select-bordered w-full">
             <!-- 显示模型选项 -->
             <option v-for="(value, key) in modelList" :key="key" :value="value">
               {{ key }}
@@ -24,15 +20,8 @@
             <span class="label-text text-lg font-semibold text-white">放大倍数：</span>
           </label>
           <div class="flex items-center">
-            <input
-              id="scale"
-              type="range"
-              v-model.number="formData.scale"
-              min="1"
-              max="2.5"
-              step="0.1"
-              class="range-primary custom-slider"
-            />
+            <input id="scale" type="range" v-model.number="formData.scale" min="1" max="2.5" step="0.1"
+              class="range-primary custom-slider" />
             <span class="ml-4 text-lg text-white">{{ formData.scale.toFixed(1) }}</span>
           </div>
         </div>
@@ -64,7 +53,7 @@ export default {
       required: true,
     },
   },
-  emits: ["pics-upload", "menuDone","isLoading"],
+  emits: ["pics-upload", "menuDone", "isLoading"],
   data() {
     return {
       formData: {
@@ -95,19 +84,20 @@ export default {
               this.$emit("menuDone");
             }, 1500);
           } else if (status === "error") {
+            this.isLoading = false;
+            this.$emit("menuDone");
+            console.error("任务发生错误！");
+          } else {
+            this.isLoading = true;
+            this.checkCnt++;
+            if (this.checkCnt >= 60) {
+              this.getResultImg(task_id);
               this.isLoading = false;
               this.$emit("menuDone");
-              console.error("任务发生错误！");
-          } else {
-              this.checkCnt++;
-              if (this.checkCnt >= 60) {
-                this.getResultImg(task_id);
-                this.isLoading = false;
-                this.$emit("menuDone");
-                this.checkCnt = 0;
-              } else {
-                setTimeout(() => this.checkTaskStatus(task_id), 2000);
-              }
+              this.checkCnt = 0;
+            } else {
+              setTimeout(() => this.checkTaskStatus(task_id), 2000);
+            }
           }
         })
         .catch((error) => {
@@ -131,7 +121,7 @@ export default {
         })
         .catch((error) => {
           console.error("下载结果图像失败：", error);
-            this.isLoading = false;
+          this.isLoading = false;
         });
     },
 
@@ -192,7 +182,6 @@ export default {
 </script>
 
 <style scoped>
-
 .menu-wrapper {
 
   top: 20%;
@@ -200,10 +189,13 @@ export default {
 
   width: 30vw;
   padding: 30px;
-  background: #131a268e; /* 半透明背景 */
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* 柔和阴影 */
+  background: #131a268e;
+  /* 半透明背景 */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  /* 柔和阴影 */
   z-index: 50;
-  backdrop-filter: blur(50px); /* 背景模糊 */
+  backdrop-filter: blur(50px);
+  /* 背景模糊 */
 }
 
 .menu-item {
@@ -211,21 +203,27 @@ export default {
 }
 
 .btn {
-  background: #fbe8d3; /* 绿色按钮 */
-  color: #283c63; /* 白色文字 */
+  background: #fbe8d3;
+  /* 绿色按钮 */
+  color: #283c63;
+  /* 白色文字 */
 }
 
 .btn:hover {
-  background: #283c63; /* 鼠标悬停变色 */
-  color: #ffffff; /* 鼠标悬停变色 */
+  background: #283c63;
+  /* 鼠标悬停变色 */
+  color: #ffffff;
+  /* 鼠标悬停变色 */
 }
 
 .custom-slider {
-  -webkit-appearance: none; /* 去除默认样式 */
+  -webkit-appearance: none;
+  /* 去除默认样式 */
   width: 100%;
   height: 8px;
   border-radius: 10px;
-  background: linear-gradient(90deg, #928a97, #283c63); /* 渐变色背景 */
+  background: linear-gradient(90deg, #928a97, #283c63);
+  /* 渐变色背景 */
   outline: none;
   opacity: 0.9;
   transition: opacity 0.3s, background 0.3s;
@@ -236,20 +234,25 @@ export default {
 }
 
 .custom-slider::-webkit-slider-thumb {
-  -webkit-appearance: none; /* 去除默认样式 */
+  -webkit-appearance: none;
+  /* 去除默认样式 */
   appearance: none;
   width: 20px;
   height: 20px;
-  background: #fbe8d3; /* 滑块颜色 */
+  background: #fbe8d3;
+  /* 滑块颜色 */
   border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 添加阴影 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  /* 添加阴影 */
   cursor: pointer;
   transition: background 0.3s, transform 0.3s;
 }
 
 .custom-slider::-webkit-slider-thumb:hover {
-  background: #f85f73; /* 鼠标悬停变色 */
-  transform: scale(1.2); /* 鼠标悬停放大 */
+  background: #f85f73;
+  /* 鼠标悬停变色 */
+  transform: scale(1.2);
+  /* 鼠标悬停放大 */
 }
 
 .custom-slider::-moz-range-thumb {
@@ -266,5 +269,4 @@ export default {
   background: #f85f73;
   transform: scale(1.2);
 }
-
 </style>
