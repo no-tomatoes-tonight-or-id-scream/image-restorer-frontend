@@ -1,5 +1,5 @@
 <template>
-  <div class="absolute w-full h-full">
+  <div class="absolute w-full h-full" v-cloak>
     <div
         id="box"
         class="absolute w-full h-full bg-gray-100"
