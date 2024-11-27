@@ -96,8 +96,10 @@ export default {
       link.click();
 
     },
-    sendIsLoading() {
-      this.isLoading = true;
+    sendIsLoading(data) {
+      this.isLoading = {value:true};
+
+      console.log("父组件触发：",data)
     }
 },
 };

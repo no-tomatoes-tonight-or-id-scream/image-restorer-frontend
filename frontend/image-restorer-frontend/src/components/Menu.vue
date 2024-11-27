@@ -136,7 +136,7 @@ export default {
     },
 
     async handleSubmit() {
-      this.$emit("isLoading");
+      this.$emit("isLoading",true);
 
 
       const params = {
