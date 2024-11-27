@@ -23,10 +23,12 @@
 
     <!-- 返回上传按钮 -->
     <div class="absolute top-[80%] left-[8%]">
-      <backToUpload :canBack="showBackAndDownload" />
+      <backToUpload
+          :canBack="showBackAndDownload"
+      />
     </div>
 
-    <div class="absolute top-[80%] left-[26%]">
+    <div class="absolute top-[80%] left-[28%]">
       <DownloadButton
           :canDownload="showBackAndDownload"
           @DownloadRequest="DownloadTheResult"

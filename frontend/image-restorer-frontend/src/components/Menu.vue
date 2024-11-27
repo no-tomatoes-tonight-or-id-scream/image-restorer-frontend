@@ -212,7 +212,7 @@ export default {
 
   top: 20%;
   left: 10%;
-  max-width: 400px;
+
   width: 30vw;
   padding: 30px;
   background: #131a268e; /* 半透明背景 */
