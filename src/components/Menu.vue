@@ -14,6 +14,7 @@
             </option>
           </select>
         </div>
+
         <!-- 放大倍数 -->
         <div class="menu-item">
           <label for="scale" class="label">
@@ -21,13 +22,29 @@
           </label>
           <div class="flex items-center">
             <input id="scale" type="range" v-model.number="formData.scale" min="1" max="2.5" step="0.1"
-              class="range-primary custom-slider" />
+                   class="range-primary custom-slider" />
             <span class="ml-4 text-lg text-white">{{ formData.scale.toFixed(1) }}</span>
           </div>
         </div>
 
+        <!-- 提交按钮 -->
         <button type="submit" class="btn w-full text-lg">
           提交
+        </button>
+
+        <!-- 返回上传按钮 -->
+        <button type="button" @click="goBack" class="btn w-full text-lg mt-2">
+          返回上传
+        </button>
+
+        <!-- 图片下载按钮（任务完成时显示） -->
+        <button
+            v-if="isCompleted"
+            type="button"
+            @click="downloadImage"
+            class="btn w-full text-lg mt-2"
+        >
+          下载图片
         </button>
       </form>
     </div>
@@ -53,7 +70,7 @@ export default {
       required: true,
     },
   },
-  emits: ["pics-upload", "menuDone", "isLoading"],
+  emits: ["pics-upload", "menuDone", "isLoading", "DownloadRequest",],
   data() {
     return {
       formData: {
@@ -62,12 +79,25 @@ export default {
       },
       modelList: {}, // 初始化为空对象，确保 v-for 能正常运行
       checkCnt: 0,
+      isCompleted: false,
     };
   },
   mounted() {
     this.getModelList();
   },
+
   methods: {
+    goBack() {
+      // 路由跳转到 home
+      this.$router.push('/');
+
+    },
+    downloadImage() {
+      // 向父组件发送下载事件信号
+      this.$emit("DownloadRequest");
+      console.log("send signal");
+    },
+
     checkTaskStatus(task_id) {
       const targetUrl = `${this.baseUrl}get_status?task_id=${task_id}`;
       axios
@@ -82,6 +112,7 @@ export default {
               this.isLoading = false; // 加载完成后隐藏
               //this.isVisible = false; // 隐藏菜单
               this.$emit("menuDone");
+              this.isCompleted = true;
             }, 1500);
           } else if (status === "error") {
             this.isLoading = false;
