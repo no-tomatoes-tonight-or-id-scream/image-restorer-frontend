@@ -108,7 +108,7 @@
       ref="leftImage"
       class="absolute inset-0 m-auto object-contain h-full rounded-xl shadow-[0_0_50px_20px_rgba(0,0,0,0.5)]"
       draggable="false"
-      @load="updateOverlay"
+      @load="handleImageLoaded"
     />
 
 
@@ -136,16 +136,12 @@ export default {
   },
   data() {
     return {
-      leftWidth: 50, // 初始化滑块位置为 50%
-      isDragging: false,
-      containerBounds: null,
-      controlImage: false, //控制遮罩容器加载
-      controlTextLeft: false, //控制干净图片状态标签
+      leftWidth: 50,           //初始化滑块位置为 50%
+      controlImage: false,     //控制遮罩容器加载
+      controlTextLeft: false,  //控制干净图片状态标签
       controlTextRight: false, //控制脏图片状态标签
-      leftBound: null,  //图片左边界
-      rightBound: null, //图片右边界
-      loading: false,  //控制 加载中 动画
-      overlayStyle: {},  //动态 加载中 样式
+      loading: false,          //控制 加载中 动画
+      overlayStyle: {},        //动态 加载中 样式
     };
   },
   watch: {
@@ -154,75 +150,140 @@ export default {
       this.controlImage = true;
       this.loading = false;
     },
-    isLoading(newVal, oldVal) {
-      this.loading=true;
-    }
-  },
-  mounted() {
-    // 获取容器的边界信息
 
+    isLoading(newVal, oldVal) {
+      this.loading = true;
+      this.leftWidth = 50;
+    }
+
+  },
+  mounted()
+  {
+
+    // 获取容器的边界信息
+    this.initShareVar();
     this.updateContainerBounds();
+
     // 监听窗口大小变化，更新边界信息
     window.addEventListener("resize", this.updateOverlay);
     window.addEventListener("resize", this.updateContainerBounds);
+
   },
-  beforeDestroy() {
+
+  beforeDestroy()
+  {
     window.removeEventListener("resize", this.updateContainerBounds);
     window.removeEventListener("resize", this.updateOverlay);
   },
+
   methods: {
-    updateContainerBounds() {
-      this.containerBounds = this.$refs.container.getBoundingClientRect();
-      this.imageLeftBound = this.$refs.leftImage.getBoundingClientRect().left;
-      this.imageRightBound = this.$refs.leftImage.getBoundingClientRect().right;
-      this.leftBound =
-        ((this.$refs.leftImage.getBoundingClientRect().left -
-          this.containerBounds.left) /
-          this.containerBounds.width) *
-        100;
-      this.rightBound =
-        ((this.$refs.leftImage.getBoundingClientRect().right -
-          this.containerBounds.left) /
-          this.containerBounds.width) *
-        100;
+
+    //初始化共享变量
+    initShareVar()
+    {
+
+      //函数间非响应式共享变量的定义
+      this.share = {
+
+        //图片容器边界占父容器宽度的百分比
+        imageBoundsPercent : {
+          left : null,
+          right : null,
+        },
+
+        //图片容器信息
+        imageBounds : {
+          left : null,
+          right : null,
+          width : null,
+          height: null,
+          top : null,
+        },
+
+        //图片父容器的左右边界的实际位置
+        imageFatherBounds : {
+          left : null,
+          right : null,
+          width : null,
+        }
+
+      }
+    },
+
+    //图片加载完成后的触发函数
+    handleImageLoaded()
+    {
+      this.updateContainerBounds();
+      this.updateOverlay();
+    },
+
+    //更新图片及其父容器的信息
+    updateContainerBounds()
+    {
+      //更新图片左右占父容器宽度的占比
+      let imageFatherBounds = this.$refs.container.getBoundingClientRect();
+      let imageBounds = this.$refs.leftImage.getBoundingClientRect();
+
+      this.share.imageBounds.left = imageBounds.left;
+      this.share.imageBounds.right = imageBounds.right;
+      this.share.imageBounds.width = imageBounds.width;
+      this.share.imageBounds.height = imageBounds.height;
+      this.share.imageBounds.top = imageBounds.top;
+
+      this.share.imageFatherBounds.left = imageFatherBounds.left;
+      this.share.imageFatherBounds.right = imageFatherBounds.right;
+      this.share.imageFatherBounds.width = imageFatherBounds.width;
+
+      this.share.imageBoundsPercent.left =
+        ((imageBounds.left - imageFatherBounds.left) / imageFatherBounds.width) * 100;
+      this.share.imageBoundsPercent.right =
+        ((imageBounds.right - imageFatherBounds.left) / imageFatherBounds.width) * 100;
 
     },
-    startDragging(event) {
-      this.isDragging = true;
-      this.updateContainerBounds();
+
+    startDragging(event)
+    {
       window.addEventListener("mousemove", this.onDrag);
       window.addEventListener("mouseup", this.stopDragging);
     },
-    stopDragging() {
-      this.isDragging = false;
+
+    stopDragging()
+    {
       window.removeEventListener("mousemove", this.onDrag);
       window.removeEventListener("mouseup", this.stopDragging);
     },
-    onDrag(event) {
-      const relativeX = event.clientX - this.containerBounds.left;
-      let newLeftWidth = (relativeX / this.containerBounds.width) * 100;
+
+    onDrag(event)
+    {
+      const relativeX = event.clientX - this.share.imageFatherBounds.left;
+      let newLeftWidth = (relativeX / this.share.imageFatherBounds.width) * 100;
+
+      //限制越界行为
       newLeftWidth = Math.max(
-        this.leftBound,
-        Math.min(this.rightBound, newLeftWidth)
+        this.share.imageBoundsPercent.left,
+        Math.min(this.share.imageBoundsPercent.right, newLeftWidth)
       );
-      if (newLeftWidth === this.leftBound) this.controlTextLeft = true;
-      else if (newLeftWidth === this.rightBound) this.controlTextRight = true;
+
+      if (newLeftWidth === this.share.imageBoundsPercent.left) this.controlTextLeft = true;
+      else if (newLeftWidth === this.share.imageBoundsPercent.right) this.controlTextRight = true;
       else this.controlTextRight = this.controlTextLeft = false;
+
       // 更新滑块位置
       this.leftWidth = newLeftWidth;
     },
+
     onWheel(event) {
-      this.updateContainerBounds();
-      console.log("滚轮边界", this.imageRightBound - this.imageLeftBound);
+
       const step = 3; // 每次滚动调整的百分比宽度
       let newLeftWidth = this.leftWidth + (event.deltaY > 0 ? -step : step);
+
       newLeftWidth = Math.max(
-        this.leftBound,
-        Math.min(this.rightBound, newLeftWidth)
+          this.share.imageBoundsPercent.left,
+          Math.min(this.share.imageBoundsPercent.right, newLeftWidth)
       );
 
-      if (newLeftWidth === this.leftBound) this.controlTextLeft = true;
-      else if (newLeftWidth === this.rightBound) this.controlTextRight = true;
+      if (newLeftWidth === this.share.imageBoundsPercent.left) this.controlTextLeft = true;
+      else if (newLeftWidth === this.share.imageBoundsPercent.right) this.controlTextRight = true;
       else this.controlTextRight = this.controlTextLeft = false;
 
       // 更新滑块位置
@@ -230,36 +291,37 @@ export default {
 
       // 阻止页面滚动
       event.preventDefault();
+
     },
 
-    checkMousePosition(event) {
-      // 检查鼠标是否在容器范围内
-      const relativeX = event.clientX - this.imageLeftBound;
+    // 检查鼠标是否在容器范围内
+    checkMousePosition(event)
+    {
+      const relativeX = event.clientX - this.share.imageBounds.left;
       const isInside =
         relativeX >= 0 &&
-        relativeX <= this.imageRightBound - this.imageLeftBound;
+        relativeX <= this.share.imageBounds.width;
 
-      if (isInside) {
+      if (isInside)
         this.$refs.container.addEventListener("wheel", this.onWheel);
-      } else {
+      else
         this.$refs.container.removeEventListener("wheel", this.onWheel);
-      }
+
     },
+
     updateOverlay() {
       const imageContainer = this.$refs.leftImage;
 
       if (imageContainer) {
-        const rect = imageContainer.getBoundingClientRect();
 
         this.overlayStyle = {
-          width: `${rect.width}px`,
-          height: `${rect.height}px`,
-          top: `${rect.top + rect.height / 2}px`,
-          left: `${rect.left + rect.width / 2}px`,
+          width: `${this.share.imageBounds.width}px`,
+          height: `${this.share.imageBounds.height}px`,
+          top: `${this.share.imageBounds.top + this.share.imageBounds.height / 2}px`,
+          left: `${this.share.imageBounds.left + this.share.imageBounds.width / 2}px`,
           transform: "translate(-50%, -50%)", // 让覆盖层中心点对齐
           zIndex: 50,
         };
-
       }
     },
   },
