@@ -99,8 +99,6 @@
     </div>、
   </div>
 
-
-
   <!--  原始图片部分-->
   <div id="original" class="absolute h-[80%] w-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" ref="container" v-if="!controlImage">
 
@@ -116,8 +114,7 @@
 
 
   </div>
-  <!--            style="clip-path: inset(0 10% 0 10%);"-->
-  <!--            :style="{ transform: 'translateX(24%)' }"-->
+
 </template>
 
 <script>
@@ -145,20 +142,19 @@ export default {
       controlImage: false, //控制遮罩容器加载
       controlTextLeft: false, //控制干净图片状态标签
       controlTextRight: false, //控制脏图片状态标签
-      leftBound: null,
-      rightBound: null,
-      loading: false,
-      overlayStyle: {},
+      leftBound: null,  //图片左边界
+      rightBound: null, //图片右边界
+      loading: false,  //控制 加载中 动画
+      overlayStyle: {},  //动态 加载中 样式
     };
   },
   watch: {
-    // 监听 externalProp 的变化
+
     cleanImage(newVal, oldVal) {
       this.controlImage = true;
       this.loading = false;
     },
     isLoading(newVal, oldVal) {
-      // console.log("ceshi:",newVal)
       this.loading=true;
     }
   },
@@ -172,6 +168,7 @@ export default {
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.updateContainerBounds);
+    window.removeEventListener("resize", this.updateOverlay);
   },
   methods: {
     updateContainerBounds() {
@@ -189,7 +186,6 @@ export default {
           this.containerBounds.width) *
         100;
 
-      // console.log(this.containerBounds);
     },
     startDragging(event) {
       this.isDragging = true;
