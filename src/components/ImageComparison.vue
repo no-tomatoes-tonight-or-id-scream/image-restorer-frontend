@@ -1,88 +1,39 @@
-<!--本组件一共分为两部分，这两个部分是互斥关系
-并且使用一个布尔值进行控制，一个部分是显示原始图片
-另外一个部分是显示两张图片的对比，初始的状态下是显示原始图片
-当收到处理好的图片后进入对比部分的容器-->
-
 <template>
 
-  <div
-    class="absolute h-[80%] w-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-    ref="container"
-    v-if="controlImage"
-    @mousemove="checkMousePosition"
-  >
-    <div
-      class="absolute w-full h-full"
-      :style="{ clipPath: `inset(-100px 0 -100px ${leftWidth}%)`}"
-      draggable="false"
+  <!--
+        本组件简单分为三部分
+          按照先后出现的顺序为
+          原始图片(即含有噪声的图片)
+          Loading页面(点击提交后的等候页面)
+          对比图片部分(处理和未处理用遮罩动态对比)
+        接口
+          dirtyImage由UploadImage组件传入 代表含噪音的图片 类型是URL
+          cleanImage由Menu组件传入 代表处理好的图片 类型是URL
+          isLoading由Menu组件传入 用于触发加载页面 不是必要传的(首次挂载本组件)
 
-    >
-      <img
+  -->
+
+  <!-- 第一部分 原始图片部分-->
+  <div id="original" class="absolute h-[80%] w-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" ref="container" v-if="!canCompare">
+
+    <img
         :src="dirtyImage"
         alt="Left Image"
         ref="leftImage"
         class="absolute inset-0 m-auto object-contain h-full rounded-xl shadow-[0_0_50px_20px_rgba(0,0,0,0.5)]"
-
         draggable="false"
-      />
-    </div>
+        @load="handleImageLoaded"
+    />
 
-    <button
-      class="absolute rounded-lg bottom-0 text-xs opacity-80 bg-gray-600"
-      :style="{ left: leftBound + '%' }"
-      v-if="controlTextLeft"
-    >
-      Original
-    </button>
-
-    <!-- 右边的处理图片部分，通过 clip-path 进行遮罩 -->
-    <div
-      class="absolute top-0 left-0 w-full h-full "
-      :style="{ clipPath: `inset(-100px ${100 - leftWidth}% -100px 0)` }"
-      draggable="false"
-
-    >
-      <img
-        :src="cleanImage"
-        alt="Right Image"
-        ref="rightImage"
-        class="absolute inset-0 m-auto object-contain h-full rounded-xl shadow-[0_0_50px_20px_rgba(0,0,0,0.5)]"
-        draggable="false"
-      />
-    </div>
-    <button
-      class="absolute rounded-lg bottom-0 text-xs opacity-80 bg-gray-600"
-      :style="{ right: leftBound + '%' }"
-      v-if="controlTextRight"
-    >
-      Processed
-    </button>
-    <!-- 滑动按钮 -->
-    <div
-      class="absolute top-0 bottom-0 w-[3px] bg-white cursor-ew-resize z-10"
-      :style="{ left: leftWidth + '%' }"
-      @mousedown.prevent="startDragging"
-    >
-      <span
-        class="absolute top-1/2 -left-2.5 w-5 h-5 rounded-full transform -translate-y-1/2 flex items-center justify-center"
-      >
-        <img
-          src="/svgs/左右箭头.svg"
-          alt="icon"
-          class="icon-img w-full h-full"
-          draggable="false"
-        />
-      </span>
-    </div>
   </div>
 
+  <!-- 第二部分 Loading页面-->
   <div
       :style="overlayStyle"
       class="fixed backdrop-blur-xl rounded-xl flex items-center justify-center"
       ref="overlay"
       v-if="loading"
   >
-    <!-- 加入加载中的内容 -->
     <div  class="loading-overlay" v-cloak>
       <div id="original">
 
@@ -96,23 +47,80 @@
           <p class="text-white text-xl mt-4">处理中，请稍候...</p>
         </div>
 
-    </div>、
+    </div>
   </div>
 
-  <!--  原始图片部分-->
-  <div id="original" class="absolute h-[80%] w-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" ref="container" v-if="!controlImage">
+  <!--第三部分 对比图片 包含滑块 遮罩层 按钮标签等   -->
+  <div
+      class="absolute h-[80%] w-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+      ref="container"
+      v-if="canCompare"
+      @mousemove="checkMousePosition"
+  >
+    <div
+        class="absolute w-full h-full"
+        :style="{ clipPath: `inset(-100px 0 -100px ${leftWidth}%)`}"
+        draggable="false"
 
-    <img
-      :src="dirtyImage"
-      alt="Left Image"
-      ref="leftImage"
-      class="absolute inset-0 m-auto object-contain h-full rounded-xl shadow-[0_0_50px_20px_rgba(0,0,0,0.5)]"
-      draggable="false"
-      @load="handleImageLoaded"
-    />
+    >
+      <img
+          :src="dirtyImage"
+          alt="Left Image"
+          ref="leftImage"
+          class="absolute inset-0 m-auto object-contain h-full rounded-xl shadow-[0_0_50px_20px_rgba(0,0,0,0.5)]"
 
+          draggable="false"
+      />
+    </div>
 
+    <button
+        class="absolute rounded-lg bottom-0 text-xs opacity-80 bg-gray-600"
+        :style="{ left: imageLeftBoundPer + '%' }"
+        v-if="controlTextLeft"
+    >
+      Original
+    </button>
 
+    <!-- 右边的处理图片部分，通过 clip-path 进行遮罩 -->
+    <div
+        class="absolute top-0 left-0 w-full h-full "
+        :style="{ clipPath: `inset(-100px ${100 - leftWidth}% -100px 0)` }"
+        draggable="false"
+
+    >
+      <img
+          :src="cleanImage"
+          alt="Right Image"
+          ref="rightImage"
+          class="absolute inset-0 m-auto object-contain h-full rounded-xl shadow-[0_0_50px_20px_rgba(0,0,0,0.5)]"
+          draggable="false"
+      />
+    </div>
+    <button
+        class="absolute rounded-lg bottom-0 text-xs opacity-80 bg-gray-600"
+        :style="{ right: imageLeftBoundPer + '%' }"
+        v-if="controlTextRight"
+    >
+      Processed
+    </button>
+
+    <!-- 滑动按钮 -->
+    <div
+        class="absolute top-0 bottom-0 w-[3px] bg-white cursor-ew-resize z-10"
+        :style="{ left: leftWidth + '%' }"
+        @mousedown.prevent="startDragging"
+    >
+      <span
+          class="absolute top-1/2 -left-2.5 w-5 h-5 rounded-full transform -translate-y-1/2 flex items-center justify-center"
+      >
+        <img
+            src="/svgs/左右箭头.svg"
+            alt="icon"
+            class="icon-img w-full h-full"
+            draggable="false"
+        />
+      </span>
+    </div>
   </div>
 
 </template>
@@ -134,20 +142,23 @@ export default {
       required: false,
     }
   },
+
   data() {
     return {
       leftWidth: 50,           //初始化滑块位置为 50%
-      controlImage: false,     //控制遮罩容器加载
+      canCompare: false,       //控制遮罩容器加载
       controlTextLeft: false,  //控制干净图片状态标签
       controlTextRight: false, //控制脏图片状态标签
       loading: false,          //控制 加载中 动画
       overlayStyle: {},        //动态 加载中 样式
+      imageLeftBoundPer : 0,   //图片左边界占父容器宽度的百分比
     };
   },
+
   watch: {
 
     cleanImage(newVal, oldVal) {
-      this.controlImage = true;
+      this.canCompare = true;
       this.loading = false;
     },
 
@@ -157,6 +168,7 @@ export default {
     }
 
   },
+
   mounted()
   {
 
@@ -238,6 +250,8 @@ export default {
         ((imageBounds.left - imageFatherBounds.left) / imageFatherBounds.width) * 100;
       this.share.imageBoundsPercent.right =
         ((imageBounds.right - imageFatherBounds.left) / imageFatherBounds.width) * 100;
+
+      this.imageLeftBoundPer = imageBounds.left; //更新边界动态变量
 
     },
 
