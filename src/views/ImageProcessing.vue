@@ -1,36 +1,24 @@
 <template>
-  <div class="absolute w-screen h-screen z-0 overflow-hidden grid grid-cols-3">
+  <div class="absolute w-screen h-screen z-0 overflow-hidden grid grid-cols-7">
     <AestheticFluidBg :uploadedFile="uploadedFile" />
-    <!-- 左侧部分 -->
-    <div class="relative col-span-1 grid grid-rows-5 gap-2">
-      <!-- Menu 紧贴左侧 grid 的右边界 -->
-      <div id="process" class="row-span-4 flex justify-end items-start mt-20 pr-5">
-        <transition name="menu-fade">
-          <Menu
-              :isVisible="showMenu"
-              :uploadedFile="uploadedFile"
-              :baseUrl="baseUrl"
-              @pics-upload="menu2Image"
-              @menuDone="menuDone"
-              @isLoading="sendIsLoading"
-          />
-        </transition>
-      </div>
 
-      <!-- 两个按钮在下面 -->
-      <div class="row-span-1 flex justify-between items-center px-7 -mt-20">
-        <backToUpload
-            :canBack="showBackAndDownload"
-        />
-        <DownloadButton
-            :canDownload="showBackAndDownload"
+    <!-- 左侧部分 -->
+    <div class="relative col-span-3 flex justify-center items-center ">
+      <transition name="menu-fade">
+        <Menu
+            :isVisible="showMenu"
+            :uploadedFile="uploadedFile"
+            :baseUrl="baseUrl"
+            @pics-upload="menu2Image"
+            @menuDone="menuDone"
+            @isLoading="sendIsLoading"
             @DownloadRequest="DownloadTheResult"
         />
-      </div>
+      </transition>
     </div>
 
     <!-- 右侧部分居中 -->
-    <div class="relative col-span-2 flex justify-center items-center">
+    <div class="relative col-span-4 flex justify-center items-center">
       <ImageComparison
           :dirtyImage="dirtyImagePath"
           :cleanImage="cleanImagePath"
