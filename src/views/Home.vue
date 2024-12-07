@@ -31,8 +31,6 @@ export default {
       this.$router.push({
         name: "ImageProcessing",
       });
-      //this.showButton = false; // 隐藏按钮触发过渡效果
-      // 这个步骤暂时没有必要 因为已经是跳转到了另一个页面 showButton不会起作用了
     },
   },
 };

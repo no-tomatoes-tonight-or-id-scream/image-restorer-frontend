@@ -36,6 +36,9 @@ import ImageComparison from "@/components/ImageComparison.vue";
 import Menu from "@/components/Menu.vue";
 import backToUpload from "@/components/backToUpload.vue";
 import DownloadButton from "@/components/DownLoadButton.vue";
+// read base url from .env file
+const baseUrl = import.meta.env.VITE_APP_BASE_URL;
+console.log("baseUrl:", baseUrl);
 
 export default {
   name: "ImageProcessing",
@@ -52,7 +55,7 @@ export default {
       uploadedFile: null,
       dirtyImagePath: null,
       cleanImagePath: null,
-      baseUrl: "https://img-api.jrhim.com/",
+      baseUrl: baseUrl,
       showBackAndDownload: false,
       isLoading: false,
     };
