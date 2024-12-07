@@ -2,6 +2,38 @@
 
 A Vue-based project featuring Vuetify, tailwind CSS.
 
+## File Structure
+
+This is a typical Vue 3 framework project, which includes routing functionality. Below is an explanation of the main file directory.
+
+```bash
+Image Restorer Frontend/
+│
+├── public/                     # Public files
+│   ├── images/                 # Folder for image assets
+│   └── svgs/                   # Folder for SVG assets
+│
+├── src/                        # Source code files
+│   ├── assets/                 # Static assets (CSS, images, fonts, etc.)
+│   │   └── tailwind.css        # Tailwind CSS configuration file
+│   │
+│   ├── components/             # Reusable components 
+│   │   
+│   │
+│   ├── views/                  # Page components 
+│   │   
+│   │
+│   ├── router/                 # Routing configuration
+│   │   └── index.js            # File that handles route definitions
+│   │
+│   ├── App.vue                 # Root component (top-level component)
+│   ├── main.js                 # Entry file for initializing the Vue instance
+│   
+│
+├── package.json                # Project dependencies, scripts, and metadata
+└── index.html                  # Main HTML file (entry point)
+```
+
 ## Prerequisites
 
 Ensure you have the following installed before starting:
