@@ -4,7 +4,8 @@ jobs:
   build_vue:
     runs-on: ubuntu-latest
     name: Build Vue
-    environment: production
+    env:
+      VITE_APP_BASE_URL: ${{ secrets.API_URL }}
     steps:
     - uses: actions/checkout@v2
     - id: Build-Vue
