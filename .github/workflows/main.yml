@@ -4,7 +4,7 @@ jobs:
   build_vue:
     runs-on: ubuntu-latest
     name: Build Vue
-    environment: github-pages
+    environment: production
     steps:
     - uses: actions/checkout@v2
     - id: Build-Vue
