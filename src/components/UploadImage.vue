@@ -3,13 +3,17 @@
     <div>
       <!-- 标题 -->
       <div class="fixed top-[22%] left-[11%] z-10">
-        <h1
-          class="text-[5vw] font-black text-[rgba(251,232,211,1)] font-mono leading-[0.87] antialiased italic"
-        >
+        <h1 class="text-[5vw] font-black text-[rgba(251,232,211,1)] font-mono leading-[0.87] antialiased italic inline-block">
           Image <br />
           Restorer
+          <span class="text-[1vw] font-normal italic ml-[0.3em] align-baseline inline-block">
+           今晚没有番茄否则我会吼叫
+          </span>
         </h1>
       </div>
+
+
+
 
       <div v-if="!uploadComplete" class="upload-wrapper">
         <!-- 上传按钮区域 -->
