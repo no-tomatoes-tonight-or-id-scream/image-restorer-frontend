@@ -6,13 +6,14 @@
         <h1 class="text-[5vw] font-black text-[rgba(251,232,211,1)] font-mono leading-[0.87] antialiased italic inline-block">
           Image <br />
           Restorer
-          <span class="text-[1vw] font-normal italic ml-[0.3em] align-baseline inline-block">
+          <span class="text-[1vw] font-normal not-italic ml-[0.3em] align-baseline inline-block text-[#283c63]">
+           <a href="https://github.com/no-tomatoes-tonight-or-id-scream" target="_blank" rel="noopener noreferrer">
+            <img src="../assets/teamLogo.png" alt="团队标识" class="w-[2.5vw] h-[2.5vw] ml-[0.3em] inline-block align-baseline opacity-60 relative translate-y-[0.2em]">
+           </a>
            今晚没有番茄否则我会吼叫
           </span>
         </h1>
       </div>
-
-
 
 
       <div v-if="!uploadComplete" class="upload-wrapper">
