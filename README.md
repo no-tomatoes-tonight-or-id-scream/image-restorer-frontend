@@ -72,7 +72,7 @@ To set up and run this project locally, follow these steps:
     - **[tailwindcss](https://tailwindcss.com/)**: A utility-first CSS framework for rapid UI development.
     - **[vue-router](https://router.vuejs.org/)**: The official router for Vue.js for managing page navigation.
     - **[vuetify](https://vuetifyjs.com/)**: A Material Design component framework for Vue.js.
-    - **[winterx/color4bg](https://github.com/winterx/color4bg.js)**: A JavaScript library for determining the best text color for a given background color.
+    - **[winterx/color4bg](https://github.com/winterx/color4bg.js)**: A Super easily generate dynamic, abstract, and visually stunning background images for your web pages based on WebGL and JavaScript. High performance.
    
   You can use the `npm list` in the project directory to see if these dependencies are already installed.
     
