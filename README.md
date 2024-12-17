@@ -72,21 +72,22 @@ To set up and run this project locally, follow these steps:
     - **[tailwindcss](https://tailwindcss.com/)**: A utility-first CSS framework for rapid UI development.
     - **[vue-router](https://router.vuejs.org/)**: The official router for Vue.js for managing page navigation.
     - **[vuetify](https://vuetifyjs.com/)**: A Material Design component framework for Vue.js.
-
-    You can use the `npm list` in the project directory to see if these dependencies are already installed.
+    - **[winterx/color4bg](https://github.com/winterx/color4bg.js)**: A JavaScript library for determining the best text color for a given background color.
+   
+  You can use the `npm list` in the project directory to see if these dependencies are already installed.
     
-    Install all required dependencies using npm:
+  Install all required dependencies using npm:
 
-    Navigate to the project directory where the `package.json` file is located and run the following command to install the necessary dependencies:
-    ```bash
-    npm install
-    ```
+  Navigate to the project directory where the `package.json` file is located and run the following command to install the necessary dependencies:
+  ```bash
+  npm install
+  ```
    Or use the following command when you check for the lack of a particular dependency
-    ```bash
-    npm install vue-icon
-    npm install vue-router
-    npm install vuetify
-    ```
+  ```bash
+  npm install vue-icon
+  npm install vue-router
+  npm install vuetify
+  ```
 
 3. **Run the Project**
 
